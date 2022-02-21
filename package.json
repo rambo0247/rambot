@@ -1,0 +1,34 @@
+{
+  "name": "rambot",
+  "version": "1.0.0",
+  "description": "Multi purpose discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leinierperez/rambot.git"
+  },
+  "author": "Leinier Perez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leinierperez/rambot/issues"
+  },
+  "homepage": "https://github.com/leinierperez/rambot#readme",
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "ascii-table": "^0.0.9",
+    "common-tags": "^1.8.2",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "mongoose": "^6.2.2"
+  }
+}

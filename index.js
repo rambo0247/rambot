@@ -1,4 +1,4 @@
-const { Client, Intents } = require('discord.js');
+const { Client, Intents, Collection } = require('discord.js');
 require('dotenv').config();
 
 const client = new Client({
@@ -11,8 +11,7 @@ const client = new Client({
   ],
 });
 
-client.once('ready', (c) => {
-  console.log('Bot online');
-});
+client.commands = new Collection();
+require('./handlers/commands')(client);
 
 client.login(process.env.DEV_DISCORD_TOKEN);

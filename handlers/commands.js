@@ -16,17 +16,22 @@ module.exports = async (client) => {
   for (const file of commandFiles) {
     const command = require(`../commands/${file}`);
 
-    if (!command.name) return Table.addRow(file, '🔴Failed', 'Missing a name');
+    if (!command.name) {
+      Table.addRow(file, '🔴Failed', 'Missing a name');
+      break;
+    }
 
     if (!command.context && !command.description) {
-      return Table.addRow(command.name, '🔴Failed', 'Missing a description');
+      Table.addRow(command.name, '🔴Failed', 'Missing a description');
+      break;
     }
 
     if (command.permission) {
       if (Perms.includes(command.permission)) {
         command.defaultPermission = false;
       } else {
-        return Table.addRow(command.name, '🔴Failed', 'Permission is invalid');
+        Table.addRow(command.name, '🔴Failed', 'Permission is invalid');
+        break;
       }
     }
 

@@ -26,11 +26,11 @@ module.exports = async (client) => {
       break;
     }
 
-    if (command.permission) {
-      if (Perms.includes(command.permission)) {
+    if (command.permissions) {
+      if (command.permissions.every((perm) => Perms.includes(perm))) {
         command.defaultPermission = false;
       } else {
-        Table.addRow(command.name, '🔴Failed', 'Permission is invalid');
+        Table.addRow(command.name, '🔴Failed', 'Permissions are invalid');
         break;
       }
     }
@@ -49,7 +49,7 @@ module.exports = async (client) => {
         const Roles = (commandName) => {
           const cmdPerms = commandsArray.find(
             (c) => c.name === commandName
-          ).permission;
+          ).permissions;
           if (!cmdPerms) return null;
           return guild.roles.cache.filter((r) => r.permissions.has(cmdPerms));
         };

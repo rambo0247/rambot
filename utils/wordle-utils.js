@@ -2,6 +2,7 @@ const { guessable } = require('../assets/wordle-words/guessable.json');
 const { words } = require('../assets/wordle-words/answer-words.json');
 const EmojiCodes = require('../validation/EmojiCodes');
 const schema = require('../models/leaderboard');
+const { codeBlock } = require('@discordjs/builders');
 
 let wordsArray = [...words];
 
@@ -67,5 +68,35 @@ module.exports = {
     } catch (err) {
       console.log(err);
     }
+  },
+  getGameEndField(guessCount, ramboPoints, answerWord) {
+    let fieldName = '';
+    let fieldValue = `= +${ramboPoints}RP =`;
+    switch (guessCount) {
+      case 1:
+        fieldName = 'Stop hacking!';
+        break;
+      case 2:
+        fieldName = "You're Smurfing!";
+        break;
+      case 3:
+        fieldName = 'Impressive!';
+        break;
+      case 4:
+        fieldName = 'Good job!';
+        break;
+      case 5:
+        fieldName = 'Nice!';
+        break;
+      case 6:
+        fieldName = 'You almost inted';
+        break;
+    }
+    if (ramboPoints < 0) {
+      fieldName = 'Buy a dictionary';
+      fieldValue = `= ${answerWord} ${ramboPoints}RP =`;
+    }
+    fieldValue = codeBlock('asciidoc', fieldValue);
+    return { fieldName, fieldValue };
   },
 };

@@ -25,13 +25,14 @@ module.exports = {
     const unguessedLetters = [...answer];
 
     for (let i = 0; i < userInput.split('').length; i++) {
-      if (unguessedLetters.includes(userInput[i])) {
-        if (answer[i] === userInput[i]) {
+      const letter = userInput[i];
+      if (unguessedLetters.includes(letter)) {
+        if (answer[i] === letter) {
           emojiString += `${EmojiCodes.green[letter]}`;
         } else {
           emojiString += `${EmojiCodes.yellow[letter]}`;
         }
-        const index = unguessedLetters.indexOf(userInput[i]);
+        const index = unguessedLetters.indexOf(letter);
         unguessedLetters.splice(index, 1);
       } else {
         emojiString += `${EmojiCodes.gray[letter]}`;

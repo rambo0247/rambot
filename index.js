@@ -16,3 +16,4 @@ require('./handlers/commands')(client);
 require('./handlers/events')(client);
 
 client.login(process.env.DEV_DISCORD_TOKEN);
+process.send('ready');

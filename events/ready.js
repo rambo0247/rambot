@@ -25,7 +25,5 @@ module.exports = {
       .catch((err) => {
         console.log(err);
       });
-
-    process.send('ready');
   },
 };

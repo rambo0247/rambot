@@ -1,4 +1,4 @@
-name: test raspberry pi
+name: deploy to raspberry pi
 
 on:
   push:
@@ -9,7 +9,13 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Pull changes from github
         run: |
-          cd rambot
-          cat index.js
+          cd dev/rambot
+          git pull origin main
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Reload the bot
+        run: pm2 reload index.js

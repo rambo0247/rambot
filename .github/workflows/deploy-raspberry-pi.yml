@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Pull changes from github
         run: |
+          cd
           cd dev/rambot
           git pull origin main
 

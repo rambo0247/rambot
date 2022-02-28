@@ -26,6 +26,9 @@ galeforceUtils = {
     ).data;
     return championData[championName];
   },
+  async getChampionSkinsData(championName) {
+    return (await galeforceUtils.getChampionData(championName)).skins;
+  },
 };
 
 module.exports = galeforceUtils;

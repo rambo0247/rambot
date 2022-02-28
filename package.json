@@ -30,6 +30,7 @@
     "common-tags": "^1.8.2",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
+    "galeforce": "^0.5.1",
     "mongoose": "^6.2.2"
   }
 }

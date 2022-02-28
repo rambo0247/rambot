@@ -22,24 +22,37 @@ module.exports = {
     return false;
   },
   colorLetters(userInput, answer) {
-    let emojiString = '';
-    const unguessedLetters = [...answer];
+    const indicesOfIncorrectLettersInGuess = [];
+    const targetLetters = {};
+    const emojiStrings = [];
 
-    for (let i = 0; i < userInput.split('').length; i++) {
-      const letter = userInput[i];
-      if (unguessedLetters.includes(letter)) {
-        if (answer[i] === letter) {
-          emojiString += `${EmojiCodes.green[letter]}`;
-        } else {
-          emojiString += `${EmojiCodes.yellow[letter]}`;
-        }
-        const index = unguessedLetters.indexOf(letter);
-        unguessedLetters.splice(index, 1);
+    for (let i = 0; i < userInput.length; ++i) {
+      const answerLetter = answer[i];
+
+      if (answerLetter in targetLetters) {
+        targetLetters[answerLetter]++;
       } else {
-        emojiString += `${EmojiCodes.gray[letter]}`;
+        targetLetters[answerLetter] = 1;
+      }
+
+      if (userInput[i] === answerLetter) {
+        emojiStrings[i] = `${EmojiCodes.green[userInput[i]]}`;
+        targetLetters[answerLetter]--;
+      } else {
+        indicesOfIncorrectLettersInGuess.push(i);
       }
     }
-    return emojiString;
+    for (const i of indicesOfIncorrectLettersInGuess) {
+      const guessLetter = userInput[i];
+
+      if (guessLetter in targetLetters && targetLetters[guessLetter] > 0) {
+        emojiStrings[i] = `${EmojiCodes.yellow[guessLetter]}`;
+        targetLetters[guessLetter]--;
+      } else {
+        emojiStrings[i] = `${EmojiCodes.gray[guessLetter]}`;
+      }
+    }
+    return emojiStrings.join('');
   },
   async saveToDatabase(gameData) {
     let playerDocument;

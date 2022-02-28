@@ -24,7 +24,7 @@ galeforceUtils = {
         .champion(championName)
         .exec()
     ).data;
-    return championData;
+    return championData[championName];
   },
 };
 

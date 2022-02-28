@@ -1,0 +1,16 @@
+riot-api:
+  key: ${RIOT_API_KEY} # (string) Your Riot API key from https://developer.riotgames.com
+rate-limit:
+  type: 'bottleneck' # (string) The type of rate limiter Galeforce should use ('bottleneck', 'null')
+  cache:
+    type: 'internal' # (string) What kind of cache to use ('redis', 'internal')
+    #uri: ${CACHE_URI} # (string) The cache URI to connect to (required for 'redis' cache)
+    #key-id: 'galeforce' # (string) The key ID to use for rate-limiting keys in the Redis cache
+  options:
+    intervals: # (key <seconds>: value <number of requests>) Manually-set local rate limits, applied per region
+      120: 100
+      1: 20
+    max-concurrent: null # (null | number) The maximum number of concurrent requests allowed. Setting to null allows unlimited concurrent requests.
+    min-time: 0 # (number) The minimum amount of time between consecutive requests
+    retry-count-after-429: 3 # (number) The number of retry attempts after an HTTP 429 error is received, delayed by response header
+debug: [] # A list containing any of 'action', 'payload', 'rate-limit', 'riot-api', '*' (all)

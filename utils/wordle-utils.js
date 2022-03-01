@@ -22,34 +22,26 @@ module.exports = {
     return false;
   },
   colorLetters(userInput, answer) {
-    const indicesOfIncorrectLettersInGuess = [];
-    const targetLetters = {};
-    const emojiStrings = [];
-
-    for (let i = 0; i < userInput.length; ++i) {
-      const answerLetter = answer[i];
-
-      if (answerLetter in targetLetters) {
-        targetLetters[answerLetter]++;
-      } else {
-        targetLetters[answerLetter] = 1;
-      }
-
-      if (userInput[i] === answerLetter) {
-        emojiStrings[i] = `${EmojiCodes.green[userInput[i]]}`;
-        targetLetters[answerLetter]--;
-      } else {
-        indicesOfIncorrectLettersInGuess.push(i);
+    const emojiStrings = Array(userInput.length).fill('GRAY');
+    for (let i = 0; i < userInput.length; i++) {
+      if (userInput[i] === answer[i]) {
+        emojiStrings[i] = `GREEN`;
+        answer = answer.replace(userInput[i], ' ');
       }
     }
-    for (const i of indicesOfIncorrectLettersInGuess) {
-      const guessLetter = userInput[i];
-
-      if (guessLetter in targetLetters && targetLetters[guessLetter] > 0) {
-        emojiStrings[i] = `${EmojiCodes.yellow[guessLetter]}`;
-        targetLetters[guessLetter]--;
-      } else {
-        emojiStrings[i] = `${EmojiCodes.gray[guessLetter]}`;
+    for (let i = 0; i < userInput.length; i++) {
+      if (emojiStrings[i] !== 'GREEN' && answer.includes(userInput[i])) {
+        emojiStrings[i] = `YELLOW`;
+        answer = answer.replace(userInput[i], ' ');
+      }
+    }
+    for (let i = 0; i < emojiStrings.length; i++) {
+      if (emojiStrings[i] === 'GRAY') {
+        emojiStrings[i] = `${EmojiCodes.gray[userInput[i]]}`;
+      } else if (emojiStrings[i] === 'YELLOW') {
+        emojiStrings[i] = `${EmojiCodes.yellow[userInput[i]]}`;
+      } else if (emojiStrings[i] === 'GREEN') {
+        emojiStrings[i] = `${EmojiCodes.green[userInput[i]]}`;
       }
     }
     return emojiStrings.join('');

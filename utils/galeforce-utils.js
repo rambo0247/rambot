@@ -29,6 +29,18 @@ galeforceUtils = {
   async getChampionSkinsData(championName) {
     return (await galeforceUtils.getChampionData(championName)).skins;
   },
+  async getItemsData() {
+    const itemsBufferObject = await galeforce.lol.ddragon
+      .asset()
+      .assetPath(
+        `/${await galeforceUtils.getLatestVersion()}/data/en_US/item.json`
+      )
+      .exec();
+    const itemsData = Object.values(
+      JSON.parse(itemsBufferObject.toString()).data
+    );
+    return itemsData;
+  },
 };
 
 module.exports = galeforceUtils;

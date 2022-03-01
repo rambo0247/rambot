@@ -104,4 +104,21 @@ module.exports = {
     fieldValue = codeBlock('asciidoc', fieldValue);
     return { fieldName, fieldValue };
   },
+  getLetters(userInput, usedLetters, unusedLetters) {
+    unusedLetters = [...unusedLetters];
+    usedLetters = [...usedLetters];
+
+    for (let i = 0; i < userInput.length; i++) {
+      for (let j = 0; j < unusedLetters.length; j++) {
+        if (userInput[i] === unusedLetters[j]) {
+          usedLetters.push(unusedLetters[j]);
+          unusedLetters[j] = '';
+        }
+      }
+    }
+    return {
+      usedLetters: usedLetters.sort().join(' '),
+      unusedLetters: unusedLetters.sort().join(' '),
+    };
+  },
 };

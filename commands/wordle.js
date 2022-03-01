@@ -6,6 +6,7 @@ const {
   colorLetters,
   saveToDatabase,
   getGameEndField,
+  getLetters,
 } = require('../utils/wordle-utils');
 const delay = require('util').promisify(setTimeout);
 const playerIds = [];
@@ -31,6 +32,7 @@ module.exports = {
     let ramboPoints = -20;
     let isWin;
     let invalidWordCount = 0;
+    const alphabet = 'a b c d e f g h i j k l m n o p q r s t u v w x y z';
 
     const wordleEmbed = new MessageEmbed()
       .setColor('#6dcb00')
@@ -50,6 +52,8 @@ module.exports = {
         `
       )
       .setThumbnail('attachment://100s.png')
+      .addField('Unused Letters', alphabet)
+      .addField('Used Letters', '\u200B')
       .setFooter({
         text: stripIndent`
         To play, use the command /wordle
@@ -103,11 +107,29 @@ module.exports = {
       await delay(100);
       await collectedMessage.delete();
       const emojis = colorLetters(userInput, answerWord);
+      const currentUsedLettersFieldValue = wordleEmbed.fields.find(
+        (field) => field.name === 'Used Letters'
+      ).value;
+      const currentUnusedLettersFieldValue = wordleEmbed.fields.find(
+        (field) => field.name === 'Unused Letters'
+      ).value;
+      const letters = getLetters(
+        userInput,
+        currentUsedLettersFieldValue,
+        currentUnusedLettersFieldValue
+      );
       const newDescription = wordleEmbed.description.replace(
         '◻️◻️◻️◻️◻️',
         emojis
       );
-      wordleEmbed.setDescription(newDescription);
+
+      wordleEmbed.setDescription(newDescription).setFields([
+        {
+          name: 'Unused Letters',
+          value: letters.unusedLetters,
+        },
+        { name: 'Used Letters', value: letters.usedLetters },
+      ]);
 
       await interaction.editReply({ embeds: [wordleEmbed] });
       guessCount++;

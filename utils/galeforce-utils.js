@@ -41,6 +41,30 @@ galeforceUtils = {
     );
     return itemsData;
   },
+  async getItemData(itemName) {
+    const allItemsData = await galeforceUtils.getItemsData();
+    try {
+      const itemData = allItemsData.find(
+        (item) => item.name.toLowerCase() === itemName.toLowerCase()
+      );
+      return itemData;
+    } catch (error) {
+      return error;
+    }
+  },
+  async getItemIconUrl(itemName) {
+    const itemData = await galeforceUtils.getItemData(itemName);
+    try {
+      const itemIconUrl = galeforce.lol.ddragon.item
+        .art()
+        .assetId(itemData.image.full.replace('.png', ''))
+        .version(await galeforceUtils.getLatestVersion())
+        .URL();
+      return itemIconUrl;
+    } catch (error) {
+      return error;
+    }
+  },
   async getAllRunesData() {
     const rawRuneDate = await galeforce.lol.ddragon.rune
       .list()

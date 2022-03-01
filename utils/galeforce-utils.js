@@ -29,7 +29,7 @@ galeforceUtils = {
   async getChampionSkinsData(championName) {
     return (await galeforceUtils.getChampionData(championName)).skins;
   },
-  async getItemsData() {
+  async getAllItemsData() {
     const itemsBufferObject = await galeforce.lol.ddragon
       .asset()
       .assetPath(
@@ -42,7 +42,7 @@ galeforceUtils = {
     return itemsData;
   },
   async getItemData(itemName) {
-    const allItemsData = await galeforceUtils.getItemsData();
+    const allItemsData = await galeforceUtils.getAllItemsData();
     try {
       const itemData = allItemsData.find(
         (item) => item.name.toLowerCase() === itemName.toLowerCase()

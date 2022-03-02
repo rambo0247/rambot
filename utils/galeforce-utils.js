@@ -117,6 +117,21 @@ galeforceUtils = {
       return error;
     }
   },
+  async getItemBuildComponents(itemName) {
+    try {
+      const itemData = await galeforceUtils.getItemData(itemName);
+      const itemComponentIds = itemData.from;
+      if (!itemComponentIds) return false;
+      const allItemsData = await galeforceUtils.getAllItemsData();
+      const itemComponents = allItemsData.filter((item) =>
+        itemComponentIds.includes(item.image.full.replace('.png', ''))
+      );
+      return itemComponents;
+    } catch (error) {
+      return 'Could not find components from that item name';
+    }
+  },
+
   async getAllRunesData() {
     const rawRuneDate = await galeforce.lol.ddragon.rune
       .list()

@@ -29,6 +29,26 @@ galeforceUtils = {
   async getChampionSkinsData(championName) {
     return (await galeforceUtils.getChampionData(championName)).skins;
   },
+  async getChampionSkins(championName) {
+    try {
+      const championSkinsData = await galeforceUtils.getChampionSkinsData(
+        championName
+      );
+      const imageUrls = [];
+      for (const skin of championSkinsData) {
+        imageUrls.push(
+          galeforce.lol.ddragon.champion.art
+            .splash()
+            .champion(championName)
+            .skin(skin.num)
+            .URL()
+        );
+      }
+      return imageUrls;
+    } catch (error) {
+      return 'Could not find skins for that champion.';
+    }
+  },
   async getAllItemsData() {
     const itemsBufferObject = await galeforce.lol.ddragon
       .asset()

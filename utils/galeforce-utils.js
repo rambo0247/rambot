@@ -26,23 +26,20 @@ galeforceUtils = {
     ).data;
     return championData[championName];
   },
-  async getChampionSkinsData(championName) {
-    return (await galeforceUtils.getChampionData(championName)).skins;
-  },
   async getChampionSkins(championName) {
     try {
-      const championSkinsData = await galeforceUtils.getChampionSkinsData(
-        championName
-      );
+      const championSkinsData = (
+        await galeforceUtils.getChampionData(championName)
+      ).skins;
       const imageUrls = [];
       for (const skin of championSkinsData) {
-        imageUrls.push(
-          galeforce.lol.ddragon.champion.art
-            .splash()
-            .champion(championName)
-            .skin(skin.num)
-            .URL()
-        );
+        const url = galeforce.lol.ddragon.champion.art
+          .splash()
+          .champion(championName)
+          .skin(skin.num)
+          .URL();
+        const skinName = skin.name;
+        imageUrls.push([url, skinName]);
       }
       return imageUrls;
     } catch (error) {

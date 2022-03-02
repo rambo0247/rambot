@@ -49,6 +49,38 @@ galeforceUtils = {
       return 'Could not find skins for that champion.';
     }
   },
+  async getChampionSpells(championName) {
+    try {
+      const championData = await galeforceUtils.getChampionData(championName);
+      const championSpells = [championData.passive, ...championData.spells];
+      return championSpells;
+    } catch (error) {
+      return 'Could not find spells for that champion';
+    }
+  },
+  async getChampionSpellImages(championName) {
+    try {
+      const imageUrls = [];
+      const championSpells = await galeforceUtils.getChampionSpells(
+        championName
+      );
+      for (const spell of championSpells) {
+        const spellName = spell.image.full.replace('.png', '');
+        const spellUrl = galeforce.lol.ddragon.spell
+          .art()
+          .version(await galeforceUtils.getLatestVersion())
+          .spell(spellName)
+          .URL();
+        imageUrls.push(spellUrl);
+      }
+      const passiveUrl = imageUrls[0].split('/');
+      passiveUrl.splice(6, 1, 'passive');
+      imageUrls[0] = passiveUrl.join('/');
+      return imageUrls;
+    } catch (error) {
+      return 'Could not get spell images for that champion';
+    }
+  },
   async getAllItemsData() {
     const itemsBufferObject = await galeforce.lol.ddragon
       .asset()

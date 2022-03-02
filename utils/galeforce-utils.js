@@ -93,13 +93,19 @@ galeforceUtils = {
     );
     return itemsData;
   },
-  async getItemData(itemName) {
+  async getItemData(items) {
     const allItemsData = await galeforceUtils.getAllItemsData();
     try {
-      const itemData = allItemsData.find(
-        (item) => item.name.toLowerCase() === itemName.toLowerCase()
+      if (items.length > 1) {
+        const itemsData = allItemsData.filter((item) =>
+          items.includes(item.name.toLowerCase())
+        );
+        return itemsData;
+      }
+      const itemsData = allItemsData.find((item) =>
+        items.includes(item.name.toLowerCase())
       );
-      return itemData;
+      return itemsData;
     } catch (error) {
       return error;
     }

@@ -62,4 +62,26 @@ async function skinFromImage() {
   );
 }
 
-module.exports = [runeFromDescription, champFromAbility, skinFromImage];
+async function championFromLore() {
+  const allChampionData = await getChampionsList();
+  const randomChampion = randomInArray(allChampionData);
+  const championData = await getChampionData(randomChampion.id);
+  let lore = championData.lore;
+  const regEx = new RegExp(championData.name, 'ig');
+  lore = lore.replaceAll(regEx, ' ----- ');
+
+  return new Question(
+    "Which champion's lore is this?",
+    lore,
+    null,
+    championData.name,
+    15
+  );
+}
+
+module.exports = [
+  runeFromDescription,
+  champFromAbility,
+  skinFromImage,
+  championFromLore,
+];

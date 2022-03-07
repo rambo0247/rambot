@@ -93,10 +93,25 @@ async function champFromTitle() {
   );
 }
 
+async function itemFromDescription() {
+  const allItemsData = await getAllItemsData();
+  const randomItem = randomInArray(allItemsData);
+  const itemDescription = parse(randomItem.description);
+
+  return new Question(
+    'Which item has the following description: ',
+    itemDescription,
+    null,
+    randomItem.name,
+    5
+  );
+}
+
 module.exports = [
   runeFromDescription,
   champFromAbility,
   skinFromImage,
   championFromLore,
   champFromTitle,
+  itemFromDescription,
 ];

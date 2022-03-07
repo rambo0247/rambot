@@ -107,6 +107,32 @@ async function itemFromDescription() {
   );
 }
 
+async function championFromSkins() {
+  const allChampionData = await getChampionsList();
+  const randomChampion = randomInArray(allChampionData);
+  const championSkinUrls = await getChampionSkins(randomChampion.id);
+  championSkinUrls.shift();
+  let skinNames = [];
+  for (const skin of championSkinUrls) {
+    skinNames.push(skin[1]);
+  }
+  skinNames = skinNames.join(', ');
+  let regEx;
+  if (skinNames.includes('Dr.')) {
+    regEx = new RegExp(randomChampion.name.split('. ')[1], 'ig');
+  } else {
+    regEx = new RegExp(randomChampion.name, 'ig');
+  }
+  skinNames = skinNames.replaceAll(regEx, ' ----- ');
+  return new Question(
+    'Which item has the following description: ',
+    skinNames,
+    null,
+    randomChampion.name,
+    10
+  );
+}
+
 module.exports = [
   runeFromDescription,
   champFromAbility,
@@ -114,4 +140,5 @@ module.exports = [
   championFromLore,
   champFromTitle,
   itemFromDescription,
+  championFromSkins,
 ];

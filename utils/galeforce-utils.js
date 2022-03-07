@@ -148,7 +148,7 @@ galeforceUtils = {
   },
   async getRuneData(runeName) {
     try {
-      const runesList = await galeforceUtils.getRunesListData();
+      const runesList = await galeforceUtils.getAllRunesData();
       const runeData = runesList.find(
         (rune) => rune.name.toLowerCase() === runeName.toLowerCase()
       );

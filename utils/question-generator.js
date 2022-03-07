@@ -79,9 +79,24 @@ async function championFromLore() {
   );
 }
 
+async function champFromTitle() {
+  const allChampionData = await getChampionsList();
+  const randomChampion = randomInArray(allChampionData);
+  const championTitle = randomChampion.title;
+
+  return new Question(
+    'Which champion has the title: ',
+    championTitle,
+    null,
+    randomChampion.name,
+    5
+  );
+}
+
 module.exports = [
   runeFromDescription,
   champFromAbility,
   skinFromImage,
   championFromLore,
+  champFromTitle,
 ];

@@ -125,7 +125,7 @@ async function championFromSkins() {
   }
   skinNames = skinNames.replaceAll(regEx, ' ----- ');
   return new Question(
-    'Which item has the following description: ',
+    'Which champion has the following skins: ',
     skinNames,
     null,
     randomChampion.name,

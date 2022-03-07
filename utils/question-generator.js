@@ -133,6 +133,29 @@ async function championFromSkins() {
   );
 }
 
+async function champFromLine() {
+  const allChampionData = await getChampionsList();
+  const randomChampion = randomInArray(allChampionData);
+  const championSpells = await getChampionSpells(randomChampion.id);
+  const randomSpell = randomInArray(championSpells);
+  const spellName = randomSpell.name;
+  const spellKeys = {
+    0: 'passive',
+    1: 'Q',
+    2: 'W',
+    3: 'E',
+    4: 'R',
+  };
+  const spellKey = spellKeys[championSpells.indexOf(randomSpell)];
+  return new Question(
+    `What's the name of ${randomChampion.name}'s  ${spellKey}`,
+    null,
+    null,
+    spellName,
+    25
+  );
+}
+
 module.exports = [
   runeFromDescription,
   champFromAbility,
@@ -141,4 +164,5 @@ module.exports = [
   champFromTitle,
   itemFromDescription,
   championFromSkins,
+  champFromLine,
 ];

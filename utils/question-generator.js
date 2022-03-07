@@ -30,5 +30,19 @@ async function runeFromDescription() {
     5
   );
 }
+async function champFromAbility() {
+  const allChampionData = await getChampionsList();
+  const randomChampion = randomInArray(allChampionData);
+  const championSpells = await getChampionSpells(randomChampion.id);
+  championSpells.shift();
+  const randomSpell = randomInArray(championSpells);
+  return new Question(
+    'Which champion has an ability called: ',
+    randomSpell.name,
+    null,
+    randomChampion.name,
+    15
+  );
+}
 
-module.exports = [runeFromDescription];
+module.exports = [runeFromDescription, champFromAbility];

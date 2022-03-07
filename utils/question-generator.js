@@ -156,6 +156,28 @@ async function champFromLine() {
   );
 }
 
+async function itemFromComponents() {
+  const allItemsData = await getAllItemsData();
+  const allowedItemsData = allItemsData.filter((item) => item.from);
+  const randomItem = randomInArray(allowedItemsData);
+  const itemComponents = await getItemBuildComponents([
+    randomItem.name.toLowerCase(),
+  ]);
+  const extraGoldCost = randomItem.gold.base;
+  let itemComponentNames = '';
+  for (const item of itemComponents) {
+    itemComponentNames += `${item.name}, `;
+  }
+  itemComponentNames += ` + ${extraGoldCost} gold`;
+  return new Question(
+    `Which item builds from the following components: `,
+    itemComponentNames,
+    null,
+    randomItem.name,
+    10
+  );
+}
+
 module.exports = [
   runeFromDescription,
   champFromAbility,
@@ -165,4 +187,5 @@ module.exports = [
   itemFromDescription,
   championFromSkins,
   champFromLine,
+  itemFromComponents,
 ];

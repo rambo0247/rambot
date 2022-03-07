@@ -44,5 +44,22 @@ async function champFromAbility() {
     15
   );
 }
+async function skinFromImage() {
+  const allChampionData = await getChampionsList();
+  const randomChampion = randomInArray(allChampionData);
+  const championSkinUrls = await getChampionSkins(randomChampion.id);
+  championSkinUrls.shift();
+  const randomSkin = randomInArray(championSkinUrls);
+  const skinUrl = randomSkin[0];
+  const skinName = randomSkin[1];
 
-module.exports = [runeFromDescription, champFromAbility];
+  return new Question(
+    "Which skin's loading screen art is this: ",
+    null,
+    skinUrl,
+    skinName,
+    20
+  );
+}
+
+module.exports = [runeFromDescription, champFromAbility, skinFromImage];

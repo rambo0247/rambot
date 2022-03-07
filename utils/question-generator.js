@@ -178,6 +178,20 @@ async function itemFromComponents() {
   );
 }
 
+async function runeFromImage() {
+  const allRunes = await getAllRunesData();
+  const randomRune = randomInArray(allRunes);
+  const runeUrl = await getRuneIconUrl(randomRune.name);
+
+  return new Question(
+    "Which rune's icon is this: ",
+    null,
+    runeUrl,
+    randomRune.name,
+    10
+  );
+}
+
 module.exports = [
   runeFromDescription,
   champFromAbility,
@@ -188,4 +202,5 @@ module.exports = [
   championFromSkins,
   champFromLine,
   itemFromComponents,
+  runeFromImage,
 ];

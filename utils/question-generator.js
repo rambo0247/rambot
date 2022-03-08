@@ -192,6 +192,20 @@ async function runeFromImage() {
   );
 }
 
+async function costFromItem() {
+  const allItemsData = await getAllItemsData();
+  const purchasableItems = allItemsData.filter((item) => item.gold.purchasable);
+  const randomItem = randomInArray(purchasableItems);
+
+  return new Question(
+    "What's the total gold cost of: ",
+    randomItem.name,
+    null,
+    randomItem.gold.total.toString(),
+    5
+  );
+}
+
 module.exports = [
   runeFromDescription,
   champFromAbility,
@@ -203,4 +217,5 @@ module.exports = [
   champFromLine,
   itemFromComponents,
   runeFromImage,
+  costFromItem,
 ];

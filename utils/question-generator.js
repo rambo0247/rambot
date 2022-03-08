@@ -133,7 +133,7 @@ async function championFromSkins() {
   );
 }
 
-async function champFromLine() {
+async function abilityFromChamp() {
   const allChampionData = await getChampionsList();
   const randomChampion = randomInArray(allChampionData);
   const championSpells = await getChampionSpells(randomChampion.id);
@@ -214,7 +214,7 @@ module.exports = [
   champFromTitle,
   itemFromDescription,
   championFromSkins,
-  champFromLine,
+  abilityFromChamp,
   itemFromComponents,
   runeFromImage,
   costFromItem,

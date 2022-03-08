@@ -126,8 +126,10 @@ galeforceUtils = {
       const itemComponentIds = itemData.from;
       if (!itemComponentIds) return false;
       const allItemsData = await galeforceUtils.getAllItemsData();
-      const itemComponents = allItemsData.filter((item) =>
-        itemComponentIds.includes(item.image.full.replace('.png', ''))
+      const itemComponents = itemComponentIds.flatMap((itemId) =>
+        allItemsData.filter(
+          (item) => itemId === item.image.full.replace('.png', '')
+        )
       );
       return itemComponents;
     } catch (error) {

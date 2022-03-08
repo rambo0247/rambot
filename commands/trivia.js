@@ -1,6 +1,7 @@
 const { CommandInteraction } = require('discord.js');
 const questions = require('../utils/question-generator');
 const { randomInArray } = require('../utils/util');
+let isTriviaGameRunning = false;
 module.exports = {
   name: 'trivia',
   description: 'Starts a game of trivia',
@@ -9,6 +10,14 @@ module.exports = {
    * @param {CommandInteraction} interaction
    */
   async execute(interaction) {
+    if (isTriviaGameRunning) {
+      await interaction.reply({
+        content: 'There is already an on-going trivia game!',
+        ephemeral: true,
+      });
+      return;
+    }
+    isTriviaGameRunning = true;
     await interaction.reply('Starting a game of trivia...');
     let currentQuestion, timer, currentAnswer;
     const secondsToAnswer = 12;
@@ -45,6 +54,7 @@ module.exports = {
 
     messageCollector.on('end', async (collectedMessages) => {
       clearTimeout(timer);
+      isTriviaGameRunning = false;
       await interaction.channel.send(
         `Too many unanswered questions. Ending trivia game`
       );

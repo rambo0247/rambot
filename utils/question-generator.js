@@ -206,6 +206,20 @@ async function costFromItem() {
   );
 }
 
+async function titleFromChamp() {
+  const allChampionData = await getChampionsList();
+  const randomChampion = randomInArray(allChampionData);
+  const championTitle = randomChampion.title;
+
+  return new Question(
+    `What's the champion title of ${randomChampion.name}?`,
+    null,
+    null,
+    championTitle,
+    15
+  );
+}
+
 module.exports = [
   runeFromDescription,
   champFromAbility,
@@ -218,4 +232,5 @@ module.exports = [
   itemFromComponents,
   runeFromImage,
   costFromItem,
+  titleFromChamp,
 ];

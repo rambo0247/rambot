@@ -15,6 +15,7 @@ const {
 } = require('./galeforce-utils');
 const { parse, randomInArray } = require('./util');
 const Question = require('../structures/Question');
+const jimp = require('jimp');
 
 async function runeFromDescription() {
   const allRunes = await getAllRunesData();
@@ -220,6 +221,37 @@ async function titleFromChamp() {
   );
 }
 
+async function champFromEditedSkin() {
+  const allChampionData = await getChampionsList();
+  const randomChampion = randomInArray(allChampionData);
+  const championSkinUrls = await getChampionSkins(randomChampion.id);
+  championSkinUrls.shift();
+  const randomSkin = randomInArray(championSkinUrls);
+  const skinUrl = randomSkin[0];
+  const image = await jimp.read(skinUrl);
+  const imageEffects = [
+    () => image.posterize(2.5),
+    () => image.blur(23),
+    () => {
+      image.invert();
+      image.rotate(180);
+    },
+    () => {
+      image.cover(300, 50);
+    },
+  ];
+  randomInArray(imageEffects)();
+
+  return new Question(
+    "Which champion's loading screen art is this: ",
+    null,
+    null,
+    randomChampion.name,
+    20,
+    await image.getBufferAsync(jimp.MIME_JPEG)
+  );
+}
+
 module.exports = [
   runeFromDescription,
   champFromAbility,
@@ -233,4 +265,5 @@ module.exports = [
   runeFromImage,
   costFromItem,
   titleFromChamp,
+  champFromEditedSkin,
 ];

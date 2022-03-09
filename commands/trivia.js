@@ -30,6 +30,7 @@ module.exports = {
     });
 
     async function startQuestion() {
+      if (!isTriviaGameRunning) return;
       currentQuestion = await randomInArray(await questions)();
       currentAnswer = currentQuestion.answer.toLowerCase();
       console.log(currentAnswer);

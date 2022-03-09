@@ -246,6 +246,35 @@ const questionGenerator = (async function () {
     );
   }
 
+  async function champFromAbilityIcon() {
+    const randomChampion = randomInArray(allChampionData);
+    const champAbilityUrls = await getChampionSpellImages(randomChampion.id);
+    champAbilityUrls.shift();
+    const randomAbilityIcon = randomInArray(champAbilityUrls);
+
+    return new Question(
+      "Which champion's ability icon is this: ",
+      null,
+      randomAbilityIcon,
+      randomChampion.name,
+      5
+    );
+  }
+
+  async function champFromPassiveIcon() {
+    const randomChampion = randomInArray(allChampionData);
+    const champAbilityUrls = await getChampionSpellImages(randomChampion.id);
+    const passiveIcon = champAbilityUrls[0];
+
+    return new Question(
+      "Which champion's passive icon is this: ",
+      null,
+      passiveIcon,
+      randomChampion.name,
+      5
+    );
+  }
+
   return [
     runeFromDescription,
     champFromAbility,
@@ -260,6 +289,8 @@ const questionGenerator = (async function () {
     costFromItem,
     titleFromChamp,
     champFromEditedSkin,
+    champFromAbilityIcon,
+    champFromPassiveIcon,
   ];
 })();
 

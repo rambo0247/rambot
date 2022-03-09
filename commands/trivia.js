@@ -30,7 +30,7 @@ module.exports = {
     });
 
     async function startQuestion() {
-      currentQuestion = await randomInArray(questions)();
+      currentQuestion = await randomInArray(await questions)();
       currentAnswer = currentQuestion.answer.toLowerCase();
       console.log(currentAnswer);
       await currentQuestion.sendQuestionMessage(interaction);

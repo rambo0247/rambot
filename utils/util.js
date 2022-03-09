@@ -22,4 +22,9 @@ module.exports = {
   randomInArray(array) {
     return array[Math.floor(Math.random() * array.length)];
   },
+  censorText(stringToCensor, text) {
+    const regEx = new RegExp(stringToCensor, 'ig');
+    text = text.replaceAll(regEx, ' ----- ');
+    return text;
+  },
 };

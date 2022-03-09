@@ -1,5 +1,5 @@
 const galeforceUtils = require('./galeforce-utils');
-const { parse, randomInArray } = require('./util');
+const { parse, randomInArray, censorText } = require('./util');
 const Question = require('../structures/Question');
 const jimp = require('jimp');
 
@@ -36,12 +36,17 @@ const questionGenerator = (async function () {
       image.cover(300, 50);
     },
   ];
+  const skinSpecialCases = {
+    'Dr. Mundo': /Mundo|Dr\. /gi,
+    'Master Yi': /(Master )?Yi/gi,
+    'Renata Glasc': /Glasc/gi,
+    'Nunu & Willump': /(Nunu & Willump|Nunu )/gi,
+  };
 
   function runeFromDescription() {
     const randomRune = randomInArray(allRunes);
     let runeDescription = parse(randomRune.longDesc);
-    const regEx = new RegExp(randomRune.name, 'ig');
-    runeDescription = runeDescription.replaceAll(regEx, ' ----- ');
+    runeDescription = censorText(randomRune.name, runeDescription);
     return new Question(
       'Which rune has this description: ',
       runeDescription,
@@ -82,8 +87,7 @@ const questionGenerator = (async function () {
     const randomChampion = randomInArray(allChampionData);
     const championData = await getChampionData(randomChampion.id);
     let lore = championData.lore;
-    const regEx = new RegExp(championData.name, 'ig');
-    lore = lore.replaceAll(regEx, ' ----- ');
+    lore = censorText(championData.name, lore);
 
     return new Question(
       "Which champion's lore is this?",
@@ -129,9 +133,8 @@ const questionGenerator = (async function () {
       skinNames.push(skin.skinName);
     }
     skinNames = skinNames.join(', ');
-    let regEx;
-    if (skinNames.includes('Dr.')) {
-      regEx = new RegExp(randomChampion.name.split('. ')[1], 'ig');
+    if (randomChampion.name in skinSpecialCases) {
+      regEx = skinSpecialCases[randomChampion.name];
     } else {
       regEx = new RegExp(randomChampion.name, 'ig');
     }

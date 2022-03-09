@@ -1,23 +1,20 @@
-const {
-  getChampionsList,
-  getChampionData,
-  getChampionSkinsData,
-  getChampionSkins,
-  getChampionSpells,
-  getChampionSpellImages,
-  getAllItemsData,
-  getItemData,
-  getItemIconUrl,
-  getItemBuildComponents,
-  getAllRunesData,
-  getRuneData,
-  getRuneIconUrl,
-} = require('./galeforce-utils');
+const galeforceUtils = require('./galeforce-utils');
 const { parse, randomInArray } = require('./util');
 const Question = require('../structures/Question');
 const jimp = require('jimp');
 
 const questionGenerator = (async function () {
+  const {
+    getChampionsList,
+    getChampionData,
+    getChampionSkins,
+    getChampionSpells,
+    getChampionSpellImages,
+    getAllItemsData,
+    getItemBuildComponents,
+    getAllRunesData,
+    getRuneIconUrl,
+  } = await galeforceUtils;
   const allRunes = await getAllRunesData();
   const allChampionData = await getChampionsList();
   const allItemsData = await getAllItemsData();

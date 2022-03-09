@@ -108,20 +108,6 @@ const galeforceUtils = (async function () {
     }
   }
 
-  async function getItemIconUrl(itemName) {
-    const itemData = await getItemData(itemName);
-    try {
-      const itemIconUrl = galeforce.lol.ddragon.item
-        .art()
-        .assetId(itemData.image.full.replace('.png', ''))
-        .version(latestVersion)
-        .URL();
-      return itemIconUrl;
-    } catch (error) {
-      return error;
-    }
-  }
-
   async function getItemBuildComponents(itemName) {
     try {
       const itemData = await getItemData(itemName);

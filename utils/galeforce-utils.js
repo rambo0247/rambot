@@ -1,36 +1,37 @@
 const GaleforceModule = require('galeforce');
 const galeforce = new GaleforceModule('./galeforce-config.yml');
 
-galeforceUtils = {
-  async getLatestVersion() {
-    return (await galeforce.lol.ddragon.versions().exec())[0];
-  },
-  async getChampionsList() {
+const galeforceUtils = (async function () {
+  const latestVersion = (await galeforce.lol.ddragon.versions().exec())[0];
+  const allRunesData = await getAllRunesData();
+  const allItemsData = await getAllItemsData();
+
+  async function getChampionsList() {
     const championList = (
       await galeforce.lol.ddragon.champion
         .list()
-        .version(await galeforceUtils.getLatestVersion())
+        .version(latestVersion)
         .locale('en_US')
         .exec()
     ).data;
     return Object.values(championList);
-  },
-  async getChampionData(championName) {
+  }
+
+  async function getChampionData(championName) {
     const championData = (
       await galeforce.lol.ddragon.champion
         .details()
-        .version(await galeforceUtils.getLatestVersion())
+        .version(latestVersion)
         .locale('en_US')
         .champion(championName)
         .exec()
     ).data;
     return championData[championName];
-  },
-  async getChampionSkins(championName) {
+  }
+
+  async function getChampionSkins(championName) {
     try {
-      const championSkinsData = (
-        await galeforceUtils.getChampionData(championName)
-      ).skins;
+      const championSkinsData = (await getChampionData(championName)).skins;
       const imageUrls = [];
       for (const skin of championSkinsData) {
         const url = galeforce.lol.ddragon.champion.art
@@ -45,27 +46,27 @@ galeforceUtils = {
     } catch (error) {
       return 'Could not find skins for that champion.';
     }
-  },
-  async getChampionSpells(championName) {
+  }
+
+  async function getChampionSpells(championName) {
     try {
-      const championData = await galeforceUtils.getChampionData(championName);
+      const championData = await getChampionData(championName);
       const championSpells = [championData.passive, ...championData.spells];
       return championSpells;
     } catch (error) {
       return 'Could not find spells for that champion';
     }
-  },
-  async getChampionSpellImages(championName) {
+  }
+
+  async function getChampionSpellImages(championName) {
     try {
       const imageUrls = [];
-      const championSpells = await galeforceUtils.getChampionSpells(
-        championName
-      );
+      const championSpells = await getChampionSpells(championName);
       for (const spell of championSpells) {
         const spellName = spell.image.full.replace('.png', '');
         const spellUrl = galeforce.lol.ddragon.spell
           .art()
-          .version(await galeforceUtils.getLatestVersion())
+          .version(latestVersion)
           .spell(spellName)
           .URL();
         imageUrls.push(spellUrl);
@@ -77,21 +78,20 @@ galeforceUtils = {
     } catch (error) {
       return 'Could not get spell images for that champion';
     }
-  },
-  async getAllItemsData() {
+  }
+
+  async function getAllItemsData() {
     const itemsBufferObject = await galeforce.lol.ddragon
       .asset()
-      .assetPath(
-        `/${await galeforceUtils.getLatestVersion()}/data/en_US/item.json`
-      )
+      .assetPath(`/${latestVersion}/data/en_US/item.json`)
       .exec();
     const itemsData = Object.values(
       JSON.parse(itemsBufferObject.toString()).data
     );
     return itemsData;
-  },
-  async getItemData(items) {
-    const allItemsData = await galeforceUtils.getAllItemsData();
+  }
+
+  async function getItemData(items) {
     try {
       if (items.length > 1) {
         const itemsData = allItemsData.filter((item) =>
@@ -106,26 +106,27 @@ galeforceUtils = {
     } catch (error) {
       return error;
     }
-  },
-  async getItemIconUrl(itemName) {
-    const itemData = await galeforceUtils.getItemData(itemName);
+  }
+
+  async function getItemIconUrl(itemName) {
+    const itemData = await getItemData(itemName);
     try {
       const itemIconUrl = galeforce.lol.ddragon.item
         .art()
         .assetId(itemData.image.full.replace('.png', ''))
-        .version(await galeforceUtils.getLatestVersion())
+        .version(latestVersion)
         .URL();
       return itemIconUrl;
     } catch (error) {
       return error;
     }
-  },
-  async getItemBuildComponents(itemName) {
+  }
+
+  async function getItemBuildComponents(itemName) {
     try {
-      const itemData = await galeforceUtils.getItemData(itemName);
+      const itemData = await getItemData(itemName);
       const itemComponentIds = itemData.from;
       if (!itemComponentIds) return false;
-      const allItemsData = await galeforceUtils.getAllItemsData();
       const itemComponents = itemComponentIds.flatMap((itemId) =>
         allItemsData.filter(
           (item) => itemId === item.image.full.replace('.png', '')
@@ -135,32 +136,33 @@ galeforceUtils = {
     } catch (error) {
       return 'Could not find components from that item name';
     }
-  },
+  }
 
-  async getAllRunesData() {
+  async function getAllRunesData() {
     const rawRuneDate = await galeforce.lol.ddragon.rune
       .list()
       .locale('en_US')
-      .version(await galeforceUtils.getLatestVersion())
+      .version(latestVersion)
       .exec();
     const runeData = rawRuneDate.flatMap((runeTree) =>
       runeTree.slots.flatMap((rune) => rune.runes)
     );
     return runeData;
-  },
-  async getRuneData(runeName) {
+  }
+
+  async function getRuneData(runeName) {
     try {
-      const runesList = await galeforceUtils.getAllRunesData();
-      const runeData = runesList.find(
+      const runeData = allRunesData.find(
         (rune) => rune.name.toLowerCase() === runeName.toLowerCase()
       );
       return runeData;
     } catch (error) {
       return error;
     }
-  },
-  async getRuneIconUrl(runeName) {
-    const rune = await galeforceUtils.getRuneData(runeName);
+  }
+
+  async function getRuneIconUrl(runeName) {
+    const rune = await getRuneData(runeName);
     try {
       const imgUrl = galeforce.lol.ddragon.rune
         .art()
@@ -170,7 +172,19 @@ galeforceUtils = {
     } catch (error) {
       return error;
     }
-  },
-};
+  }
+
+  return {
+    getChampionsList,
+    getChampionData,
+    getChampionSkins,
+    getChampionSpells,
+    getChampionSpellImages,
+    getAllItemsData,
+    getItemBuildComponents,
+    getAllRunesData,
+    getRuneIconUrl,
+  };
+})();
 
 module.exports = galeforceUtils;

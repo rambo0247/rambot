@@ -68,14 +68,12 @@ const questionGenerator = (async function () {
     const championSkinUrls = await getChampionSkins(randomChampion.id);
     championSkinUrls.shift();
     const randomSkin = randomInArray(championSkinUrls);
-    const skinUrl = randomSkin[0];
-    const skinName = randomSkin[1];
 
     return new Question(
       "Which skin's loading screen art is this: ",
       null,
-      skinUrl,
-      skinName,
+      randomSkin.url,
+      randomSkin.skinName,
       5
     );
   }
@@ -128,7 +126,7 @@ const questionGenerator = (async function () {
     championSkinUrls.shift();
     let skinNames = [];
     for (const skin of championSkinUrls) {
-      skinNames.push(skin[1]);
+      skinNames.push(skin.skinName);
     }
     skinNames = skinNames.join(', ');
     let regEx;
@@ -229,8 +227,7 @@ const questionGenerator = (async function () {
     const championSkinUrls = await getChampionSkins(randomChampion.id);
     championSkinUrls.shift();
     const randomSkin = randomInArray(championSkinUrls);
-    const skinUrl = randomSkin[0];
-    const image = await jimp.read(skinUrl);
+    const image = await jimp.read(randomSkin.url);
     randomInArray(imageEffects)(image);
 
     return new Question(

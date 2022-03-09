@@ -40,7 +40,7 @@ const galeforceUtils = (async function () {
           .skin(skin.num)
           .URL();
         const skinName = skin.name;
-        imageUrls.push([url, skinName]);
+        imageUrls.push({ url, skinName });
       }
       return imageUrls;
     } catch (error) {

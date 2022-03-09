@@ -63,7 +63,7 @@ const questionGenerator = (async function () {
       randomSpell.name,
       null,
       randomChampion.name,
-      15
+      5
     );
   }
   async function skinFromImage() {
@@ -79,7 +79,7 @@ const questionGenerator = (async function () {
       null,
       skinUrl,
       skinName,
-      20
+      5
     );
   }
 
@@ -95,7 +95,7 @@ const questionGenerator = (async function () {
       lore,
       null,
       championData.name,
-      15
+      10
     );
   }
 
@@ -146,7 +146,7 @@ const questionGenerator = (async function () {
       skinNames,
       null,
       randomChampion.name,
-      10
+      5
     );
   }
 
@@ -161,7 +161,7 @@ const questionGenerator = (async function () {
       null,
       null,
       spellName,
-      25
+      15
     );
   }
 
@@ -182,7 +182,7 @@ const questionGenerator = (async function () {
       itemComponentNames.join(', '),
       null,
       randomItem.name,
-      10
+      15
     );
   }
 
@@ -195,7 +195,7 @@ const questionGenerator = (async function () {
       null,
       runeUrl,
       randomRune.name,
-      10
+      5
     );
   }
 
@@ -241,7 +241,7 @@ const questionGenerator = (async function () {
       null,
       null,
       randomChampion.name,
-      20,
+      15,
       await image.getBufferAsync(jimp.MIME_JPEG)
     );
   }

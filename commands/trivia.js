@@ -34,7 +34,6 @@ module.exports = {
       if (!isTriviaGameRunning) return;
       currentQuestion = await randomInArray(await questions)();
       currentAnswer = currentQuestion.answer.toLowerCase();
-      console.log(currentAnswer);
       await currentQuestion.sendQuestionMessage(interaction);
       timer = setTimeout(async () => {
         await currentQuestion.sendWrongAnswerMessage(interaction);

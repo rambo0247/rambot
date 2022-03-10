@@ -50,13 +50,7 @@ module.exports = {
       pages.push(pageMsg);
     }
 
-    if (pages.length === 0) {
-      await interaction.reply(
-        `${target.user.username} has not played a game of wordle`
-      );
-    } else {
-      paginator(interaction, pages);
-    }
+    paginator(interaction, pages);
   },
   async getTriviaLeaderboard(interaction) {
     const pages = [];
@@ -67,7 +61,7 @@ module.exports = {
       const currentUser = usersData.slice(index, usersPerPage);
       usersPerPage += 10;
       let rankNumber = index;
-      const Table = new Ascii('Wordle Leaderboard');
+      const Table = new Ascii('Trivia Leaderboard');
       Table.setHeading('Rank', 'Score', 'Username', 'Correct Answers');
       for (const { userName, triviaStats } of currentUser) {
         const { score, totalCorrectAnswers } = triviaStats;
@@ -87,12 +81,6 @@ module.exports = {
       pages.push(pageMsg);
     }
 
-    if (pages.length === 0) {
-      await interaction.reply(
-        `${target.user.username} has not played a game of trivia`
-      );
-    } else {
-      paginator(interaction, pages);
-    }
+    paginator(interaction, pages);
   },
 };

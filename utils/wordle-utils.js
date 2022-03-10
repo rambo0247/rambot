@@ -1,7 +1,7 @@
 const { guessable } = require('../assets/wordle-words/guessable.json');
 const { words } = require('../assets/wordle-words/answer-words.json');
 const EmojiCodes = require('../validation/EmojiCodes');
-const schema = require('../models/leaderboard');
+const userModel = require('../models/user');
 const { codeBlock } = require('@discordjs/builders');
 
 let wordsArray = [...words];
@@ -49,9 +49,9 @@ module.exports = {
   async saveToDatabase(gameData) {
     let playerDocument;
     try {
-      playerDocument = await schema.find({ discordId: gameData.discordId });
+      playerDocument = await userModel.find({ discordId: gameData.discordId });
       if (playerDocument.length === 0) {
-        playerDocument = await schema.create({
+        playerDocument = await userModel.create({
           discordId: gameData.discordId,
           userName: gameData.userName,
           ramboPoints: gameData.ramboPoints,

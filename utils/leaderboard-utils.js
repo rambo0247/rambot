@@ -1,4 +1,4 @@
-const schema = require('../models/leaderboard');
+const userModel = require('../models/user');
 const { paginator } = require('../utils/paginator');
 const Ascii = require('ascii-table');
 
@@ -6,7 +6,7 @@ module.exports = {
   async getWordleLeaderboard(interaction) {
     const pages = [];
     let pageMsg = '';
-    const usersData = await schema.find().sort({ ramboPoints: -1 });
+    const usersData = await userModel.find().sort({ ramboPoints: -1 });
     let playersPerPage = 10;
     for (let index = 0; index < usersData.length; index += 10) {
       const currentPlayer = usersData.slice(index, playersPerPage);

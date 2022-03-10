@@ -1,6 +1,7 @@
 const { CommandInteraction } = require('discord.js');
 const questions = require('../utils/question-generator');
 const { randomInArray } = require('../utils/util');
+const { saveToDatabase } = require('../utils/trivia-utils');
 let isTriviaGameRunning = false;
 module.exports = {
   name: 'trivia',
@@ -45,6 +46,12 @@ module.exports = {
       const userInput = collectedMessage.content.toLowerCase();
       if (userInput === currentAnswer && !currentQuestion.isExpired) {
         clearTimeout(timer);
+        const gameData = {
+          discordId: collectedMessage.author.id,
+          userName: collectedMessage.author.username,
+          points: currentQuestion.points,
+        };
+        await saveToDatabase(gameData);
         await currentQuestion.sendCorrectAnswerMessage(
           interaction,
           collectedMessage.author.username

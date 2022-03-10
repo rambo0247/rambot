@@ -27,4 +27,33 @@ module.exports = {
     text = text.replaceAll(regEx, ' ----- ');
     return text;
   },
+  async createUser(
+    userModel,
+    discordId,
+    userName,
+    ramboPoints,
+    wordleStats = null,
+    triviaStats = null
+  ) {
+    const defaultWordleStats = {
+      score: 0,
+      totalGames: 0,
+      totalGuesses: 0,
+      totalWins: 0,
+      totalLosses: 0,
+      totalInvalidWords: 0,
+    };
+    const defaultTriviaStats = {
+      score: 0,
+      totalCorrectAnswers: 0,
+    };
+    const User = await userModel.create({
+      discordId: discordId,
+      userName: userName,
+      ramboPoints: ramboPoints,
+      wordleStats: wordleStats || defaultWordleStats,
+      triviaStats: triviaStats || defaultTriviaStats,
+    });
+    return User;
+  },
 };

@@ -6,7 +6,7 @@ module.exports = {
   async getWordleLeaderboard(interaction) {
     const pages = [];
     let pageMsg = '';
-    const usersData = await userModel.find().sort({ ramboPoints: -1 });
+    const usersData = await userModel.find().sort('-wordleStats.score');
     let playersPerPage = 10;
     for (let index = 0; index < usersData.length; index += 10) {
       const currentPlayer = usersData.slice(index, playersPerPage);
@@ -15,24 +15,24 @@ module.exports = {
       const Table = new Ascii('Wordle Leaderboard');
       Table.setHeading(
         'Rank',
-        'Rambo Points',
+        'Score',
         'Username',
         'W/L',
         'Avg Guesses',
         'Invalid words'
       );
-      for (const {
-        userName,
-        ramboPoints,
-        totalGames,
-        totalGuesses,
-        totalWins,
-        totalLosses,
-        totalInvalidWords,
-      } of currentPlayer) {
+      for (const { userName, wordleStats } of currentPlayer) {
+        const {
+          score,
+          totalGames,
+          totalGuesses,
+          totalWins,
+          totalLosses,
+          totalInvalidWords,
+        } = wordleStats;
         Table.addRow(
           `${++rankNumber}`,
-          `${ramboPoints}`,
+          `${score}`,
           `${userName}`,
           `${totalWins}/${totalLosses} (${Math.round(
             (totalWins / totalGames) * 100

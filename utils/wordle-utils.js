@@ -50,7 +50,10 @@ module.exports = {
   async saveToDatabase(gameData) {
     let playerDocument;
     try {
-      playerDocument = await userModel.find({ discordId: gameData.discordId });
+      playerDocument = await userModel.find(
+        { discordId: gameData.discordId },
+        { ramboPoints: 1, wordleStats: 1 }
+      );
       if (playerDocument.length === 0) {
         const wordleStats = {
           score: gameData.ramboPoints,

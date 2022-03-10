@@ -3,6 +3,7 @@ const { words } = require('../assets/wordle-words/answer-words.json');
 const EmojiCodes = require('../validation/EmojiCodes');
 const userModel = require('../models/user');
 const { codeBlock } = require('@discordjs/builders');
+const { createUser } = require('./util');
 
 let wordsArray = [...words];
 
@@ -51,23 +52,31 @@ module.exports = {
     try {
       playerDocument = await userModel.find({ discordId: gameData.discordId });
       if (playerDocument.length === 0) {
-        playerDocument = await userModel.create({
-          discordId: gameData.discordId,
-          userName: gameData.userName,
-          ramboPoints: gameData.ramboPoints,
+        const wordleStats = {
+          score: gameData.ramboPoints,
           totalGames: 1,
           totalGuesses: gameData.guessCount,
           totalWins: gameData.isWin ? 1 : 0,
           totalLosses: gameData.isWin ? 0 : 1,
           totalInvalidWord: gameData.invalidWordCount,
-        });
+        };
+
+        playerDocument = await createUser(
+          userModel,
+          gameData.discordId,
+          gameData.userName,
+          gameData.ramboPoints,
+          wordleStats
+        );
       } else {
         playerDocument[0].ramboPoints += gameData.ramboPoints;
-        playerDocument[0].totalGames += 1;
-        playerDocument[0].totalGuesses += gameData.guessCount;
-        playerDocument[0].totalWins += gameData.isWin ? 1 : 0;
-        playerDocument[0].totalLosses += gameData.isWin ? 0 : 1;
-        playerDocument[0].totalInvalidWords += gameData.invalidWordCount;
+        playerDocument[0].wordleStats.score += gameData.ramboPoints;
+        playerDocument[0].wordleStats.totalGames += 1;
+        playerDocument[0].wordleStats.totalGuesses += gameData.guessCount;
+        playerDocument[0].wordleStats.totalWins += gameData.isWin ? 1 : 0;
+        playerDocument[0].wordleStats.totalLosses += gameData.isWin ? 0 : 1;
+        playerDocument[0].wordleStats.totalInvalidWords +=
+          gameData.invalidWordCount;
         await playerDocument[0].save();
       }
     } catch (err) {

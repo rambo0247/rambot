@@ -58,4 +58,41 @@ module.exports = {
       paginator(interaction, pages);
     }
   },
+  async getTriviaLeaderboard(interaction) {
+    const pages = [];
+    let pageMsg = '';
+    const usersData = await userModel.find().sort('-triviaStats.score');
+    let usersPerPage = 10;
+    for (let index = 0; index < usersData.length; index += 10) {
+      const currentUser = usersData.slice(index, usersPerPage);
+      usersPerPage += 10;
+      let rankNumber = index;
+      const Table = new Ascii('Wordle Leaderboard');
+      Table.setHeading('Rank', 'Score', 'Username', 'Correct Answers');
+      for (const { userName, triviaStats } of currentUser) {
+        const { score, totalCorrectAnswers } = triviaStats;
+        Table.addRow(
+          `${++rankNumber}`,
+          `${score}`,
+          `${userName}`,
+          `${totalCorrectAnswers}`
+        );
+      }
+      for (let column = 0; column < 6; column++) {
+        Table.setAlign(column, Table.__nameAlign);
+      }
+      Table.removeBorder();
+      Table.setBorder('|', '_', '.', '|');
+      pageMsg = Table.toString();
+      pages.push(pageMsg);
+    }
+
+    if (pages.length === 0) {
+      await interaction.reply(
+        `${target.user.username} has not played a game of trivia`
+      );
+    } else {
+      paginator(interaction, pages);
+    }
+  },
 };

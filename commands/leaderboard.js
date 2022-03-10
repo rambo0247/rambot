@@ -1,6 +1,9 @@
 const { CommandInteraction } = require('discord.js');
 const userIds = new Set();
-const { getWordleLeaderboard } = require('../utils/leaderboard-utils');
+const {
+  getWordleLeaderboard,
+  getTriviaLeaderboard,
+} = require('../utils/leaderboard-utils');
 const availableGameNames = '(wordle, trivia)';
 module.exports = {
   name: 'leaderboard',
@@ -30,6 +33,9 @@ module.exports = {
     switch (gameName) {
       case 'wordle':
         await getWordleLeaderboard(interaction);
+        break;
+      case 'trivia':
+        await getTriviaLeaderboard(interaction);
         break;
       default:
         await interaction.reply({

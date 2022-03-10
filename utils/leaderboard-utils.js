@@ -65,12 +65,14 @@ module.exports = {
       Table.setHeading('Rank', 'Score', 'Username', 'Correct Answers');
       for (const { userName, triviaStats } of currentUser) {
         const { score, totalCorrectAnswers } = triviaStats;
-        Table.addRow(
-          `${++rankNumber}`,
-          `${score}`,
-          `${userName}`,
-          `${totalCorrectAnswers}`
-        );
+        if (score > 0) {
+          Table.addRow(
+            `${++rankNumber}`,
+            `${score}`,
+            `${userName}`,
+            `${totalCorrectAnswers}`
+          );
+        }
       }
       for (let column = 0; column < 6; column++) {
         Table.setAlign(column, Table.__nameAlign);

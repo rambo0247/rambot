@@ -1,5 +1,5 @@
-const { guessable } = require('../assets/wordle-words/guessable.json');
-const { words } = require('../assets/wordle-words/answer-words.json');
+const { guessable } = require('../assets/wordle/wordle-words/guessable.json');
+const { words } = require('../assets/wordle/wordle-words/answer-words.json');
 const EmojiCodes = require('../validation/EmojiCodes');
 const userModel = require('../models/user');
 const { codeBlock } = require('@discordjs/builders');

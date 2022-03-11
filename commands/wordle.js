@@ -63,7 +63,9 @@ module.exports = {
 
     await interaction.reply({
       embeds: [wordleEmbed],
-      files: [{ attachment: './assets/images/100s.png', name: '100s.png' }],
+      files: [
+        { attachment: './assets/wordle/images/100s.png', name: '100s.png' },
+      ],
     });
 
     let secondsRemaining = 100;
@@ -74,7 +76,7 @@ module.exports = {
           embeds: [wordleEmbed],
           files: [
             {
-              attachment: `./assets/images/${secondsRemaining}s.png`,
+              attachment: `./assets/wordle/images/${secondsRemaining}s.png`,
               name: `${secondsRemaining}s.png`,
             },
           ],

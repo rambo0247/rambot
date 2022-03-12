@@ -44,6 +44,10 @@ module.exports = {
     messageCollector.on('collect', async (collectedMessage) => {
       const userInput = collectedMessage.content.toLowerCase();
       if (userInput === currentAnswer && !currentQuestion.isExpired) {
+        await currentQuestion.sendCorrectAnswerMessage(
+          interaction,
+          collectedMessage.author.username
+        );
         clearTimeout(timer);
         const gameData = {
           discordId: collectedMessage.author.id,
@@ -51,10 +55,6 @@ module.exports = {
           points: currentQuestion.points,
         };
         await saveToDatabase(gameData);
-        await currentQuestion.sendCorrectAnswerMessage(
-          interaction,
-          collectedMessage.author.username
-        );
         await startQuestion();
       }
     });

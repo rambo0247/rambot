@@ -1,5 +1,5 @@
 <p align="center">
-<img alt="icon for rambot" src="https://cdn-icons.flaticon.com/png/512/4269/premium/4269098.png?token=exp=1646981089~hmac=419db68763d9bee3824ab813d7487f70" width="100" height="100">
+<img alt="icon for rambot" src="https://i.postimg.cc/tTLD9k9T/robot.png" width="100" height="100">
 </p>
 <h1 align="center"> Rambot </h1>
 <h3 align="center"> A multi-purpose discord bot built with <a href=https://discord.js.org/>discord.js</a></h3>

@@ -1,4 +1,4 @@
-const { CommandInteraction } = require('discord.js');
+const { CommandInteraction, Client } = require('discord.js');
 const userIds = new Set();
 const {
   getWordleLeaderboard,
@@ -19,8 +19,9 @@ module.exports = {
   /**
    *
    * @param {CommandInteraction} interaction
+   * @param {Client} client
    */
-  async execute(interaction) {
+  async execute(interaction, client) {
     const userId = interaction.user.id;
     if (userIds.has(userId)) {
       await interaction.reply(
@@ -32,10 +33,10 @@ module.exports = {
 
     switch (gameName) {
       case 'wordle':
-        await getWordleLeaderboard(interaction);
+        await getWordleLeaderboard(interaction, client);
         break;
       case 'trivia':
-        await getTriviaLeaderboard(interaction);
+        await getTriviaLeaderboard(interaction, client);
         break;
       default:
         await interaction.reply({

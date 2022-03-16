@@ -3,7 +3,7 @@ const { paginator } = require('../utils/paginator');
 const Ascii = require('ascii-table');
 
 module.exports = {
-  async getWordleLeaderboard(interaction) {
+  async getWordleLeaderboard(interaction, client) {
     const pages = [];
     let pageMsg = '';
     const usersData = await userModel.find().sort('-wordleStats.score');
@@ -21,7 +21,7 @@ module.exports = {
         'Avg Guesses',
         'Invalid words'
       );
-      for (const { userName, wordleStats } of currentPlayer) {
+      for (const { discordId, wordleStats } of currentPlayer) {
         const {
           score,
           totalGames,
@@ -30,6 +30,9 @@ module.exports = {
           totalLosses,
           totalInvalidWords,
         } = wordleStats;
+        const userName = (
+          await client.users.fetch(discordId, [{ cache: true }])
+        ).username;
         Table.addRow(
           `${++rankNumber}`,
           `${score}`,
@@ -52,7 +55,7 @@ module.exports = {
 
     paginator(interaction, pages);
   },
-  async getTriviaLeaderboard(interaction) {
+  async getTriviaLeaderboard(interaction, client) {
     const pages = [];
     let pageMsg = '';
     const usersData = await userModel.find().sort('-triviaStats.score');
@@ -63,8 +66,11 @@ module.exports = {
       let rankNumber = index;
       const Table = new Ascii('Trivia Leaderboard');
       Table.setHeading('Rank', 'Score', 'Username', 'Correct Answers');
-      for (const { userName, triviaStats } of currentUser) {
+      for (const { discordId, triviaStats } of currentUser) {
         const { score, totalCorrectAnswers } = triviaStats;
+        const userName = (
+          await client.users.fetch(discordId, [{ cache: true }])
+        ).username;
         if (score > 0) {
           Table.addRow(
             `${++rankNumber}`,

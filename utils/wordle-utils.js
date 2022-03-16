@@ -84,7 +84,7 @@ module.exports = {
         await playerDocument[0].save();
       }
       if (gameData.ramboPoints > 0) {
-        addMoney(
+        await addMoney(
           currencySystem,
           gameData.ramboPoints,
           gameData.discordId,
@@ -92,7 +92,7 @@ module.exports = {
           'wallet'
         );
       } else {
-        removeMoney(
+        await removeMoney(
           currencySystem,
           Math.abs(gameData.ramboPoints),
           gameData.discordId,

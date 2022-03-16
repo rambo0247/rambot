@@ -1,4 +1,4 @@
-const { CommandInteraction, MessageEmbed } = require('discord.js');
+const { CommandInteraction, MessageEmbed, Client } = require('discord.js');
 const { stripIndent } = require('common-tags');
 const {
   getAnswerWord,
@@ -10,14 +10,17 @@ const {
 } = require('../utils/wordle-utils');
 const delay = require('util').promisify(setTimeout);
 const playerIds = [];
+const CurrencySystem = require('currency-system');
 module.exports = {
   name: 'wordle',
   description: 'Plays a game of wordle',
   /**
    *
    * @param {CommandInteraction} interaction
+   * @param {Client} client
+   * @param {CurrencySystem} currencySystem
    */
-  async execute(interaction) {
+  async execute(interaction, client, currencySystem) {
     const discordId = interaction.user.id;
     if (playerIds.includes(discordId)) {
       return await interaction.reply({
@@ -168,7 +171,7 @@ module.exports = {
         guessCount,
         invalidWordCount,
       };
-      saveToDatabase(gameData);
+      saveToDatabase(gameData, currencySystem, interaction);
       playerIds.splice(playerIds.indexOf(discordId), 1);
     });
   },

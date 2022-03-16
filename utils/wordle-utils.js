@@ -4,6 +4,7 @@ const EmojiCodes = require('../validation/EmojiCodes');
 const userModel = require('../models/user');
 const { codeBlock } = require('@discordjs/builders');
 const { createUser } = require('./util');
+const { addMoney, removeMoney } = require('../utils/currency-system-utils');
 
 let wordsArray = [...words];
 
@@ -47,7 +48,7 @@ module.exports = {
     }
     return emojiStrings.join('');
   },
-  async saveToDatabase(gameData) {
+  async saveToDatabase(gameData, currencySystem, interaction) {
     let playerDocument;
     try {
       playerDocument = await userModel.find(
@@ -81,6 +82,23 @@ module.exports = {
         playerDocument[0].wordleStats.totalInvalidWords +=
           gameData.invalidWordCount;
         await playerDocument[0].save();
+      }
+      if (gameData.ramboPoints > 0) {
+        addMoney(
+          currencySystem,
+          gameData.ramboPoints,
+          gameData.discordId,
+          interaction.guild.id,
+          'wallet'
+        );
+      } else {
+        removeMoney(
+          currencySystem,
+          Math.abs(gameData.ramboPoints),
+          gameData.discordId,
+          interaction.guild.id,
+          'wallet'
+        );
       }
     } catch (err) {
       console.log(err);

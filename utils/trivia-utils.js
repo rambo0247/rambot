@@ -1,8 +1,9 @@
 const userModel = require('../models/user');
 const { createUser } = require('./util');
+const { addMoney } = require('../utils/currency-system-utils');
 
 module.exports = {
-  async saveToDatabase(gameData) {
+  async saveToDatabase(gameData, currencySystem, interaction) {
     let playerDocument;
     try {
       playerDocument = await userModel.find(
@@ -28,6 +29,13 @@ module.exports = {
         playerDocument[0].triviaStats.totalCorrectAnswers += 1;
         await playerDocument[0].save();
       }
+      await addMoney(
+        currencySystem,
+        gameData.points,
+        gameData.discordId,
+        interaction.guild.id,
+        'wallet'
+      );
     } catch (err) {
       console.log(err);
     }

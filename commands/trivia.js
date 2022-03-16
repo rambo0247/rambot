@@ -3,14 +3,17 @@ const questions = require('../utils/question-generator');
 const { randomInArray } = require('../utils/util');
 const { saveToDatabase } = require('../utils/trivia-utils');
 let isTriviaGameRunning = false;
+const CurrencySystem = require('currency-system');
 module.exports = {
   name: 'trivia',
   description: 'Starts a game of trivia',
   /**
    *
    * @param {CommandInteraction} interaction
+   * @param {Client} client
+   * @param {CurrencySystem} currencySystem
    */
-  async execute(interaction) {
+  async execute(interaction, client, currencySystem) {
     if (isTriviaGameRunning) {
       await interaction.reply({
         content: 'There is already an on-going trivia game!',
@@ -54,7 +57,7 @@ module.exports = {
           userName: collectedMessage.author.username,
           points: currentQuestion.points,
         };
-        await saveToDatabase(gameData);
+        await saveToDatabase(gameData, currencySystem, interaction);
         await startQuestion();
       }
     });

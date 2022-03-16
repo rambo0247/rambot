@@ -2,7 +2,7 @@ const { Events } = require('../validation/event-names');
 const fs = require('fs');
 const Ascii = require('ascii-table');
 
-module.exports = async (client) => {
+module.exports = async (client, currencySystem) => {
   const Table = new Ascii('Events Loaded');
 
   const eventFiles = fs
@@ -21,9 +21,13 @@ module.exports = async (client) => {
     }
 
     if (event.once) {
-      client.once(event.name, (...args) => event.execute(...args, client));
+      client.once(event.name, (...args) =>
+        event.execute(client, currencySystem, ...args)
+      );
     } else {
-      client.on(event.name, (...args) => event.execute(...args, client));
+      client.on(event.name, (...args) =>
+        event.execute(...args, client, currencySystem)
+      );
     }
 
     Table.addRow(event.name, '🟢SUCCESSFUL');

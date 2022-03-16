@@ -1,5 +1,6 @@
 const { Client, Intents, Collection } = require('discord.js');
 require('dotenv').config();
+const CurrencySystem = require('currency-system');
 
 const client = new Client({
   intents: [
@@ -12,7 +13,8 @@ const client = new Client({
 });
 
 client.commands = new Collection();
-require('./handlers/commands')(client);
-require('./handlers/events')(client);
+const currencySystem = new CurrencySystem();
+require('./handlers/commands')(client, currencySystem);
+require('./handlers/events')(client, currencySystem);
 
 client.login(process.env.DISCORD_TOKEN);

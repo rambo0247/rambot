@@ -1,6 +1,7 @@
 const { Client } = require('discord.js');
 const mongoose = require('mongoose');
 require('dotenv').config();
+const CurrencySystem = require('currency-system');
 
 module.exports = {
   name: 'ready',
@@ -8,8 +9,9 @@ module.exports = {
   /**
    *
    * @param {Client} client
+   * @param {CurrencySystem} currencySystem
    */
-  async execute(client) {
+  async execute(client, currencySystem) {
     console.log('The client is now ready!');
 
     if (!process.env.MONGODB_TOKEN) return;
@@ -25,5 +27,18 @@ module.exports = {
       .catch((err) => {
         console.log(err);
       });
+
+    CurrencySystem.cs.on('debug', (debug, error) => {
+      console.log(debug);
+      if (error) console.error(error);
+    });
+    currencySystem.setMongoURL(process.env.MONGODB_TOKEN);
+    currencySystem.setDefaultBankAmount(500);
+    currencySystem.setDefaultWalletAmount(0);
+    // 0 means infinite
+    currencySystem.setMaxBankAmount(0);
+    currencySystem.setMaxWalletAmount(10000);
+
+    currencySystem.searchForNewUpdate(true);
   },
 };

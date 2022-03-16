@@ -37,7 +37,7 @@ module.exports = {
     currencySystem.setDefaultWalletAmount(0);
     // 0 means infinite
     currencySystem.setMaxBankAmount(0);
-    currencySystem.setMaxWalletAmount(10000);
+    currencySystem.setMaxWalletAmount(0);
 
     currencySystem.searchForNewUpdate(true);
   },

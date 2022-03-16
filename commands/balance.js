@@ -30,7 +30,7 @@ module.exports = {
       guild: interaction.guild.id,
     });
     const bankingIcon = new MessageAttachment(
-      './assets/slots/banking.png',
+      './assets/economy/banking.png',
       'banking.png'
     );
     const balanceEmbed = new MessageEmbed()

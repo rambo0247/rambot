@@ -53,7 +53,7 @@ module.exports = {
     try {
       playerDocument = await userModel.find(
         { discordId: gameData.discordId },
-        { ramboPoints: 1, wordleStats: 1 }
+        { wordleStats: 1 }
       );
       if (playerDocument.length === 0) {
         const wordleStats = {
@@ -68,12 +68,9 @@ module.exports = {
         playerDocument = await createUser(
           userModel,
           gameData.discordId,
-          gameData.userName,
-          gameData.ramboPoints,
           wordleStats
         );
       } else {
-        playerDocument[0].ramboPoints += gameData.ramboPoints;
         playerDocument[0].wordleStats.score += gameData.ramboPoints;
         playerDocument[0].wordleStats.totalGames += 1;
         playerDocument[0].wordleStats.totalGuesses += gameData.guessCount;

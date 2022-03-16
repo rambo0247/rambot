@@ -27,8 +27,6 @@ const triviaSchema = mongoose.Schema({
 
 const userSchema = mongoose.Schema({
   discordId: def2,
-  userName: def2,
-  ramboPoints: def,
   wordleStats: wordleSchema,
   triviaStats: triviaSchema,
 });

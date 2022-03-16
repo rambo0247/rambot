@@ -30,8 +30,6 @@ module.exports = {
   async createUser(
     userModel,
     discordId,
-    userName,
-    ramboPoints,
     wordleStats = null,
     triviaStats = null
   ) {
@@ -49,8 +47,6 @@ module.exports = {
     };
     const User = await userModel.create({
       discordId: discordId,
-      userName: userName,
-      ramboPoints: ramboPoints,
       wordleStats: wordleStats || defaultWordleStats,
       triviaStats: triviaStats || defaultTriviaStats,
     });

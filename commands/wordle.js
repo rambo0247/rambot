@@ -164,7 +164,6 @@ module.exports = {
       }
       clearInterval(timer);
       const gameData = {
-        userName,
         discordId,
         isWin,
         ramboPoints,

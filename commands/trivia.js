@@ -54,7 +54,6 @@ module.exports = {
         clearTimeout(timer);
         const gameData = {
           discordId: collectedMessage.author.id,
-          userName: collectedMessage.author.username,
           points: currentQuestion.points,
         };
         await saveToDatabase(gameData, currencySystem, interaction);

@@ -58,7 +58,9 @@ module.exports = {
   async getTriviaLeaderboard(interaction, client) {
     const pages = [];
     let pageMsg = '';
-    const usersData = await userModel.find().sort('-triviaStats.score');
+    const usersData = (
+      await userModel.find().sort('-triviaStats.score')
+    ).filter((user) => user.triviaStats.score > 0);
     let usersPerPage = 10;
     for (let index = 0; index < usersData.length; index += 10) {
       const currentUser = usersData.slice(index, usersPerPage);
@@ -71,14 +73,12 @@ module.exports = {
         const userName = (
           await client.users.fetch(discordId, [{ cache: true }])
         ).username;
-        if (score > 0) {
-          Table.addRow(
-            `${++rankNumber}`,
-            `${score}`,
-            `${userName}`,
-            `${totalCorrectAnswers}`
-          );
-        }
+        Table.addRow(
+          `${++rankNumber}`,
+          `${score}`,
+          `${userName}`,
+          `${totalCorrectAnswers}`
+        );
       }
       for (let column = 0; column < 6; column++) {
         Table.setAlign(column, Table.__nameAlign);

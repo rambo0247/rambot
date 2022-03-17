@@ -13,7 +13,7 @@ const {
 const { randomInArray } = require('../utils/util');
 const CurrencySystem = require('currency-system');
 const { sendGameEndMessage } = require('../utils/slots-utils');
-const playerIds = new Set();
+const playerIds = [];
 
 module.exports = {
   name: 'slots',
@@ -36,13 +36,13 @@ module.exports = {
     const betAmount = interaction.options.getInteger('bet');
     const user = interaction.user;
     const guildId = interaction.guild.id;
-    if (playerIds.has(interaction.user.id)) {
+    if (playerIds.includes(user.id)) {
       return await interaction.reply({
         content: 'A slots game is already running',
         ephemeral: true,
       });
     }
-    playerIds.add(user.id);
+    playerIds.push(user.id);
     let userBalance = await getUserBalance(currencySystem, user, guildId);
     if (betAmount < 50)
       return await interaction.reply({
@@ -106,7 +106,7 @@ module.exports = {
       await interaction.editReply({
         content: threeSlotsLockedMsg,
       });
-      playerIds.delete(user.id);
+      playerIds.splice(playerIds.indexOf(user.id), 1);
     }, 1000 * 5);
 
     const gameEndEmbed = new MessageEmbed()

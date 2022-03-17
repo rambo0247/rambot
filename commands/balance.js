@@ -6,6 +6,7 @@ const {
 } = require('discord.js');
 const CurrencySystem = require('currency-system');
 const { rCoin } = require('../validation/EmojiCodes');
+const { getUserBalance } = require('../utils/currency-system-utils');
 
 module.exports = {
   name: 'balance',
@@ -25,10 +26,11 @@ module.exports = {
    */
   async execute(interaction, client, currencySystem) {
     const user = interaction.options.getUser('user') || interaction.user;
-    const result = await currencySystem.balance({
-      user: user,
-      guild: interaction.guild.id,
-    });
+    const result = await getUserBalance(
+      currencySystem,
+      user,
+      interaction.guild.id
+    );
     const bankingIcon = new MessageAttachment(
       './assets/economy/banking.png',
       'banking.png'

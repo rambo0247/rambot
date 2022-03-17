@@ -35,3 +35,4 @@ credit somewhere.
 - <a href="https://www.flaticon.com/free-icons/empty" title="empty icons">Empty icons created by Chattapat - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/money" title="money icons">Money icons created by Freepik - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/jackpot" title="jackpot icons">Jackpot icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/steal" title="steal icons">Steal icons created by pongsakornRed - Flaticon</a>

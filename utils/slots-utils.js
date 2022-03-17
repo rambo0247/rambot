@@ -7,7 +7,7 @@ module.exports = {
     gameEndEmbed,
     interaction,
     messageField,
-    userBalance
+    userData
   ) {
     setTimeout(async () => {
       gameEndEmbed
@@ -15,7 +15,7 @@ module.exports = {
           `${messageField.name}`,
           `${
             messageField.value
-          } ${payout} ${rCoin}\nYou now have ${userBalance.wallet.toLocaleString()} ${rCoin}`
+          } ${payout} ${rCoin}\nYou now have ${userData.rawData.wallet.toLocaleString()} ${rCoin}`
         )
         .setThumbnail(`attachment://${gameEndIcon.name}`);
       await interaction.editReply({

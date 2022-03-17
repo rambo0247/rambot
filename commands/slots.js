@@ -43,7 +43,7 @@ module.exports = {
       });
     }
     playerIds.push(user.id);
-    let userBalance = await getUserBalance(currencySystem, user, guildId);
+    const userBalance = await getUserBalance(currencySystem, user, guildId);
     if (betAmount < 50)
       return await interaction.reply({
         content: 'Please enter a valid bet amount, minimum is 50',
@@ -124,15 +124,20 @@ module.exports = {
         value: 'You lost',
       };
       const payout = betAmount;
-      await removeMoney(currencySystem, payout, user, guildId, 'wallet');
-      userBalance = await getUserBalance(currencySystem, user, guildId);
+      const result = await removeMoney(
+        currencySystem,
+        payout,
+        user,
+        guildId,
+        'wallet'
+      );
       sendGameEndMessage(
         payout,
         loseIcon,
         gameEndEmbed,
         interaction,
         messageField,
-        userBalance
+        result
       );
     } else if (slotOne === slotTwo && slotOne === slotThree) {
       const messageField = {
@@ -140,15 +145,20 @@ module.exports = {
         value: 'You won',
       };
       const payout = betAmount * tripleWinMultiplier;
-      await addMoney(currencySystem, payout, user, guildId, 'wallet');
-      userBalance = await getUserBalance(currencySystem, user, guildId);
+      const result = await addMoney(
+        currencySystem,
+        payout,
+        user,
+        guildId,
+        'wallet'
+      );
       sendGameEndMessage(
         payout,
         jackpotWinIcon,
         gameEndEmbed,
         interaction,
         messageField,
-        userBalance
+        result
       );
     } else {
       const messageField = {
@@ -156,15 +166,20 @@ module.exports = {
         value: 'You won',
       };
       const payout = betAmount * pairWinMultiplier;
-      await addMoney(currencySystem, payout, user, guildId, 'wallet');
-      userBalance = await getUserBalance(currencySystem, user, guildId);
+      const result = await addMoney(
+        currencySystem,
+        payout,
+        user,
+        guildId,
+        'wallet'
+      );
       sendGameEndMessage(
         payout,
         pairWinIcon,
         gameEndEmbed,
         interaction,
         messageField,
-        userBalance
+        result
       );
     }
   },

@@ -37,7 +37,6 @@ module.exports = {
         content: "You can't rob yourself",
         ephemeral: true,
       });
-    await interaction.channel.send(`${userToRob.toString()}`);
     const minAmountToRob = 20;
     const maxAmountToRob = 100;
     const result = await currencySystem.rob({

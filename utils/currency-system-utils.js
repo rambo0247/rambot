@@ -17,4 +17,11 @@ module.exports = {
     });
     if (result.error) console.log('You cant remove negitive money');
   },
+  async getUserBalance(currencySystem, user, guildId) {
+    const balance = await currencySystem.balance({
+      user: user,
+      guild: guildId,
+    });
+    return balance;
+  },
 };

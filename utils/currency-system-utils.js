@@ -7,6 +7,7 @@ module.exports = {
       wheretoPutMoney: location,
     });
     if (result.error) console.log('You cant add negative money');
+    return result;
   },
   async removeMoney(currencySystem, moneyAmount, userId, guildId, location) {
     const result = await currencySystem.removeMoney({
@@ -16,6 +17,7 @@ module.exports = {
       wheretoPutMoney: location,
     });
     if (result.error) console.log('You cant remove negitive money');
+    return result;
   },
   async getUserBalance(currencySystem, user, guildId) {
     const balance = await currencySystem.balance({

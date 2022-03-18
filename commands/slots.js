@@ -19,10 +19,22 @@ module.exports = {
   description: 'Play a game of slots',
   options: [
     {
-      name: 'bet',
-      description: 'Amount of money to bet (minimum: 50)',
-      type: 'INTEGER',
-      required: true,
+      name: 'coins',
+      description: 'Play a game of slots betting the specified amount',
+      type: 'SUB_COMMAND',
+      options: [
+        {
+          name: 'bet',
+          description: 'Amount of money to bet (minimum: 50)',
+          type: 'INTEGER',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'all',
+      description: 'Play a game of slots betting all your money',
+      type: 'SUB_COMMAND',
     },
   ],
   /**
@@ -32,16 +44,22 @@ module.exports = {
    * @param {CurrencySystem} currencySystem
    */
   async execute(interaction, client, currencySystem) {
-    const betAmount = interaction.options.getInteger('bet');
+    const subCommand = interaction.options.getSubcommand();
     const user = interaction.user;
     const guildId = interaction.guild.id;
+    const userBalance = await getUserBalance(currencySystem, user, guildId);
+    let betAmount;
+    if (subCommand === 'coins')
+      betAmount = interaction.options.getInteger('bet');
+    else if (subCommand === 'all') {
+      betAmount = userBalance.wallet;
+    }
     if (playerIds.has(user.id)) {
       return await interaction.reply({
         content: 'A slots game is already running',
         ephemeral: true,
       });
     }
-    const userBalance = await getUserBalance(currencySystem, user, guildId);
     if (betAmount < 50) {
       return await interaction.reply({
         content: 'Please enter a valid bet amount, minimum is 50',

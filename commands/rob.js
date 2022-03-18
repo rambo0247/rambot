@@ -65,17 +65,18 @@ module.exports = {
         text: `Robbery Report • ${getDate()}`,
       });
     let embedDescription;
+    const userName = user.username;
     if (result.error) {
       if (result.type === 'time')
-        embedDescription = `Stop robbing people, work to make R-Coins. You can rob again in ${result.time}`;
+        embedDescription = `${userName} tried robbing ${result.user2.username} but can't until ${result.time}`;
       if (result.type === 'low-money')
-        embedDescription = `You need atleast ${result.minAmount} ${rCoin} to rob someone`;
+        embedDescription = `${userName} tried robbing ${result.user2.username} but they need atleast ${result.minAmount} ${rCoin} to rob`;
       if (result.type === 'low-wallet')
         embedDescription = `You can't rob ${result.user2.username}. They have less than ${result.minAmount} ${rCoin} in their wallet`;
       if (result.type === 'caught')
-        embedDescription = `${interaction.user.username} tried robbing ${result.user2.username} but Korea screenshotted it and started laughing. You got caught and ended up paying ${result.amount} ${rCoin} to ${result.user2.username}!`;
+        embedDescription = `${userName} tried robbing ${result.user2.username} but Korea screenshotted it and started laughing. You got caught and ended up paying ${result.amount} ${rCoin} to ${result.user2.username}!`;
     } else if (result.type === 'success')
-      embedDescription = `${interaction.user.username} successfully robbed ${result.user2.username} and got away with ${result.amount} ${rCoin}`;
+      embedDescription = `${userName} successfully robbed ${result.user2.username} and got away with ${result.amount} ${rCoin}`;
     robEmbed.setDescription(embedDescription);
     await interaction.reply({
       content: `${userToRob.toString()}`,

@@ -12,7 +12,10 @@ const {
 } = require('../utils/currency-system-utils');
 const { randomInArray } = require('../utils/util');
 const CurrencySystem = require('currency-system');
-const { sendGameEndMessage } = require('../utils/slots-utils');
+const {
+  sendGameEndMessage,
+  updateUserBalance,
+} = require('../utils/slots-utils');
 const playerIds = [];
 
 module.exports = {
@@ -127,12 +130,13 @@ module.exports = {
         value: 'You lost',
       };
       const payout = betAmount;
-      const result = await removeMoney(
+      const result = await updateUserBalance(
         currencySystem,
         payout,
         user,
         guildId,
-        'wallet'
+        'wallet',
+        false
       );
       sendGameEndMessage(
         payout,
@@ -148,12 +152,13 @@ module.exports = {
         value: 'You won',
       };
       const payout = betAmount * tripleWinMultiplier;
-      const result = await addMoney(
+      const result = await updateUserBalance(
         currencySystem,
         payout,
         user,
         guildId,
-        'wallet'
+        'wallet',
+        true
       );
       sendGameEndMessage(
         payout,
@@ -169,12 +174,13 @@ module.exports = {
         value: 'You won',
       };
       const payout = betAmount * pairWinMultiplier;
-      const result = await addMoney(
+      const result = await updateUserBalance(
         currencySystem,
         payout,
         user,
         guildId,
-        'wallet'
+        'wallet',
+        true
       );
       sendGameEndMessage(
         payout,

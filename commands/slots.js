@@ -5,11 +5,7 @@ const {
   Client,
 } = require('discord.js');
 const { slots } = require('../validation/EmojiCodes');
-const {
-  addMoney,
-  removeMoney,
-  getUserBalance,
-} = require('../utils/currency-system-utils');
+const { getUserBalance } = require('../utils/currency-system-utils');
 const { randomInArray } = require('../utils/util');
 const CurrencySystem = require('currency-system');
 const {

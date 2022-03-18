@@ -37,7 +37,6 @@ module.exports = {
       './assets/economy/banking.png',
       'banking.png'
     );
-    const date = new Date(Date.now());
     const withdrawEmbed = new MessageEmbed()
       .setTitle('Withdrawal')
       .setColor('RANDOM')

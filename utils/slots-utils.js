@@ -1,4 +1,5 @@
 const { rCoin } = require('../validation/EmojiCodes');
+const { addMoney, removeMoney } = require('../utils/currency-system-utils');
 
 module.exports = {
   sendGameEndMessage(
@@ -24,5 +25,27 @@ module.exports = {
         files: [gameEndIcon],
       });
     }, 1000 * 5);
+  },
+  async updateUserBalance(
+    currencySystem,
+    payout,
+    user,
+    guildId,
+    location,
+    isWin
+  ) {
+    let result;
+    if (isWin) {
+      result = await addMoney(currencySystem, payout, user, guildId, location);
+    } else {
+      result = await removeMoney(
+        currencySystem,
+        payout,
+        user,
+        guildId,
+        location
+      );
+    }
+    return result;
   },
 };

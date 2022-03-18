@@ -37,3 +37,4 @@ credit somewhere.
 - <a href="https://www.flaticon.com/free-icons/jackpot" title="jackpot icons">Jackpot icons created by Freepik - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/steal" title="steal icons">Steal icons created by pongsakornRed - Flaticon</a>
 - <a href="https://www.freepik.com/vectors/business">Business vector created by jcomp - www.freepik.com</a>
+- <a href="https://www.flaticon.com/free-icons/donation" title="donation icons">Donation icons created by DinosoftLabs - Flaticon</a>

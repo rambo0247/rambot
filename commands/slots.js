@@ -12,7 +12,7 @@ const {
   sendGameEndMessage,
   updateUserBalance,
 } = require('../utils/slots-utils');
-const playerIds = [];
+const playerIds = new Set();
 
 module.exports = {
   name: 'slots',
@@ -35,28 +35,26 @@ module.exports = {
     const betAmount = interaction.options.getInteger('bet');
     const user = interaction.user;
     const guildId = interaction.guild.id;
-    if (playerIds.includes(user.id)) {
+    if (playerIds.has(user.id)) {
       return await interaction.reply({
         content: 'A slots game is already running',
         ephemeral: true,
       });
     }
-    playerIds.push(user.id);
     const userBalance = await getUserBalance(currencySystem, user, guildId);
     if (betAmount < 50) {
-      playerIds.splice(playerIds.indexOf(user.id), 1);
       return await interaction.reply({
         content: 'Please enter a valid bet amount, minimum is 50',
         ephemeral: true,
       });
     }
     if (userBalance.wallet.toLocaleString() < betAmount) {
-      playerIds.splice(playerIds.indexOf(user.id), 1);
       return await interaction.reply({
         content: 'You do not have enough money in your wallet for this bet',
         ephemeral: true,
       });
     }
+    playerIds.add(user.id);
     const pairWinMultiplier = 3;
     const tripleWinMultiplier = 12;
     const animatedSlots = slots.animatedSlots;
@@ -108,7 +106,7 @@ module.exports = {
       await interaction.editReply({
         content: threeSlotsLockedMsg,
       });
-      playerIds.splice(playerIds.indexOf(user.id), 1);
+      playerIds.delete(user.id);
     }, 1000 * 5);
 
     const gameEndEmbed = new MessageEmbed()

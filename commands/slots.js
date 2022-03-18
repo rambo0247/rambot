@@ -138,6 +138,7 @@ module.exports = {
         'wallet',
         false
       );
+      gameEndEmbed.setColor('RED');
       sendGameEndMessage(
         payout,
         loseIcon,

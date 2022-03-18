@@ -61,7 +61,7 @@ module.exports = {
       './assets/economy/donation.png',
       'donation.png'
     );
-    const withdrawEmbed = new MessageEmbed()
+    const donationEmbed = new MessageEmbed()
       .setTitle('Donation')
       .setColor('GOLD')
       .setAuthor({
@@ -82,7 +82,7 @@ module.exports = {
       });
     }
     await interaction.reply({
-      embeds: [withdrawEmbed],
+      embeds: [donationEmbed],
       files: [donationIcon],
     });
   },

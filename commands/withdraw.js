@@ -6,6 +6,7 @@ const {
 } = require('discord.js');
 const CurrencySystem = require('currency-system');
 const { rCoin } = require('../validation/EmojiCodes');
+const { getDate } = require('../utils/util');
 
 module.exports = {
   name: 'withdraw',
@@ -46,7 +47,7 @@ module.exports = {
       })
       .setThumbnail('attachment://banking.png')
       .setFooter({
-        text: `Withdrawal receipt • ${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
+        text: `Withdrawal receipt • ${getDate()}`,
       });
     let embedDescription;
     if (result.error) {

@@ -6,6 +6,7 @@ const {
 } = require('discord.js');
 const CurrencySystem = require('currency-system');
 const { rCoin } = require('../validation/EmojiCodes');
+const { getDate } = require('../utils/util');
 
 module.exports = {
   name: 'rob',
@@ -52,7 +53,6 @@ module.exports = {
       './assets/economy/robber.png',
       'robber.png'
     );
-    const date = new Date(Date.now());
     const robEmbed = new MessageEmbed()
       .setColor('RANDOM')
       .setAuthor({
@@ -62,7 +62,7 @@ module.exports = {
       .setTitle('Robbing Report')
       .setThumbnail('attachment://robber.png')
       .setFooter({
-        text: `Robbery Report • ${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`,
+        text: `Robbery Report • ${getDate()}`,
       });
     let embedDescription;
     if (result.error) {

@@ -19,7 +19,7 @@ module.exports = {
    */
   async execute(interaction, client, currencySystem) {
     const user = interaction.user;
-    const weeklyRewardAmount = 300;
+    const weeklyRewardAmount = 700;
     const result = await currencySystem.weekly({
       user: user,
       guild: interaction.guild.id,
@@ -30,7 +30,7 @@ module.exports = {
       'gift.png'
     );
     const weeklyRewardEmbed = new MessageEmbed()
-      .setTitle('weekly Reward')
+      .setTitle('Weekly Reward')
       .setColor('GREEN')
       .setAuthor({
         name: user.username,

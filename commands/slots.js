@@ -44,12 +44,15 @@ module.exports = {
     }
     playerIds.push(user.id);
     const userBalance = await getUserBalance(currencySystem, user, guildId);
-    if (betAmount < 50)
+    if (betAmount < 50) {
+      playerIds.splice(playerIds.indexOf(user.id), 1);
       return await interaction.reply({
         content: 'Please enter a valid bet amount, minimum is 50',
         ephemeral: true,
       });
+    }
     if (userBalance.wallet.toLocaleString() < betAmount) {
+      playerIds.splice(playerIds.indexOf(user.id), 1);
       return await interaction.reply({
         content: 'You do not have enough money in your wallet for this bet',
         ephemeral: true,

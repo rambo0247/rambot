@@ -38,7 +38,7 @@ module.exports = {
         ephemeral: true,
       });
     const minAmountToRob = 20;
-    const maxAmountToRob = 100;
+    const maxAmountToRob = 1000;
     const result = await currencySystem.rob({
       user: user,
       user2: userToRob,

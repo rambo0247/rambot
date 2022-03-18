@@ -7,16 +7,29 @@ const {
 const CurrencySystem = require('currency-system');
 const { rCoin } = require('../validation/EmojiCodes');
 const { getDate } = require('../utils/util');
+const { getUserBalance } = require('../utils/currency-system-utils');
 
 module.exports = {
   name: 'deposit',
   description: 'Deposits R-Coins from your wallet into your bank',
   options: [
     {
-      name: 'amount',
+      name: 'coins',
       description: 'Amount of R-Coins to deposit',
-      type: 'INTEGER',
-      required: true,
+      type: 'SUB_COMMAND',
+      options: [
+        {
+          name: 'amount',
+          description: 'Amount of R-Coins to deposit',
+          type: 'INTEGER',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'all',
+      description: 'Deposit all the your money',
+      type: 'SUB_COMMAND',
     },
   ],
   /**
@@ -26,11 +39,19 @@ module.exports = {
    * @param {CurrencySystem} currencySystem
    */
   async execute(interaction, client, currencySystem) {
-    const amountToDeposit = interaction.options.getInteger('amount');
+    const subCommand = interaction.options.getSubcommand();
     const user = interaction.user;
+    const guildId = interaction.guild.id;
+    let amountToDeposit;
+    if (subCommand === 'coins')
+      amountToDeposit = interaction.options.getInteger('amount');
+    else if (subCommand === 'all') {
+      const balance = await getUserBalance(currencySystem, user, guildId);
+      amountToDeposit = balance.wallet;
+    }
     const result = await currencySystem.deposite({
       user: user,
-      guild: interaction.guild.id,
+      guild: guildId,
       amount: amountToDeposit,
     });
     const bankingIcon = new MessageAttachment(

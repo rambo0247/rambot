@@ -50,7 +50,7 @@ module.exports = {
         iconURL: `${user.displayAvatarURL()}`,
       })
       .setDescription(
-        `You worked as a ${result.workType} and earned $${result.amount} ${rCoin}`
+        `You worked as a ${result.workType} and earned ${result.amount} ${rCoin}`
       )
       .setThumbnail('attachment://worker.png')
       .setFooter({

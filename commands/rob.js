@@ -29,12 +29,12 @@ module.exports = {
     const userToRob = interaction.options.getUser('user');
     const user = interaction.user;
     if (userToRob.bot)
-      return interaction.reply({
+      return await interaction.reply({
         content: 'This user is a bot.',
         ephemeral: true,
       });
     if (userToRob.id === user.id)
-      return interaction.reply({
+      return await interaction.reply({
         content: "You can't rob yourself",
         ephemeral: true,
       });
@@ -68,9 +68,9 @@ module.exports = {
     const userName = user.username;
     if (result.error) {
       if (result.type === 'time')
-        embedDescription = `${userName} tried robbing ${result.user2.username} but can't until ${result.time}`;
+        embedDescription = `${userName} tried robbing ${userToRob.username} but can't until ${result.time}`;
       if (result.type === 'low-money')
-        embedDescription = `${userName} tried robbing ${result.user2.username} but they need atleast ${result.minAmount} ${rCoin} to rob`;
+        embedDescription = `${userName} tried robbing ${userToRob.username} but they need atleast ${result.minAmount} ${rCoin} to rob`;
       if (result.type === 'low-wallet')
         embedDescription = `You can't rob ${result.user2.username}. They have less than ${result.minAmount} ${rCoin} in their wallet`;
       if (result.type === 'caught')

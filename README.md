@@ -41,3 +41,4 @@ credit somewhere.
 - <a href="https://www.flaticon.com/free-icons/donation" title="donation icons">Donation icons created by DinosoftLabs - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/reward" title="reward icons">Reward icons created by Pixel perfect - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/construction-worker" title="construction worker icons">Construction worker icons created by surang - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/time" title="time icons">Time icons created by Freepik - Flaticon</a>

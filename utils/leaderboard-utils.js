@@ -1,6 +1,7 @@
 const userModel = require('../models/user');
 const { paginator } = require('../utils/paginator');
 const Ascii = require('ascii-table');
+const { rCoin } = require('../validation/EmojiCodes');
 
 module.exports = {
   async getWordleLeaderboard(interaction, client) {
@@ -78,6 +79,44 @@ module.exports = {
           `${score}`,
           `${userName}`,
           `${totalCorrectAnswers}`
+        );
+      }
+      for (let column = 0; column < 6; column++) {
+        Table.setAlign(column, Table.__nameAlign);
+      }
+      Table.removeBorder();
+      Table.setBorder('|', '_', '.', '|');
+      pageMsg = Table.toString();
+      pages.push(pageMsg);
+    }
+
+    paginator(interaction, pages);
+  },
+  async getBalanceLeaderboard(interaction, client, currencySystem) {
+    const usersData = await currencySystem.leaderboard(interaction.guild.id);
+    if (usersData.length < 1)
+      return await interaction.reply({
+        content: 'No one is in leaderboard yet',
+        ephemeral: true,
+      });
+    const pages = [];
+    let pageMsg = '';
+    let usersPerPage = 10;
+    for (let index = 0; index < usersData.length; index += 10) {
+      const currentUser = usersData.slice(index, usersPerPage);
+      usersPerPage += 10;
+      let rankNumber = index;
+      const Table = new Ascii('Trivia Leaderboard');
+      Table.setHeading('Rank', 'Username', `Networth`, `Wallet`, `Bank`);
+      for (const { wallet, bank, networth, userID, streak } of currentUser) {
+        const userName = (await client.users.fetch(userID, [{ cache: true }]))
+          .username;
+        Table.addRow(
+          `${++rankNumber}`,
+          `${userName}`,
+          `${networth.toLocaleString('en-US')}`,
+          `${wallet.toLocaleString('en-US')}`,
+          `${bank.toLocaleString('en-US')}`
         );
       }
       for (let column = 0; column < 6; column++) {

@@ -3,8 +3,10 @@ const userIds = new Set();
 const {
   getWordleLeaderboard,
   getTriviaLeaderboard,
+  getBalanceLeaderboard,
 } = require('../utils/leaderboard-utils');
-const availableGameNames = '(wordle, trivia)';
+const availableGameNames = '(wordle, trivia, rcoins)';
+const CurrencySystem = require('currency-system');
 module.exports = {
   name: 'leaderboard',
   description: 'Displays leaderboard for a certain game.',
@@ -20,8 +22,9 @@ module.exports = {
    *
    * @param {CommandInteraction} interaction
    * @param {Client} client
+   * @param {CurrencySystem} currencySystem
    */
-  async execute(interaction, client) {
+  async execute(interaction, client, currencySystem) {
     const userId = interaction.user.id;
     if (userIds.has(userId)) {
       await interaction.reply(
@@ -37,6 +40,9 @@ module.exports = {
         break;
       case 'trivia':
         await getTriviaLeaderboard(interaction, client);
+        break;
+      case 'balance':
+        await getBalanceLeaderboard(interaction, client, currencySystem);
         break;
       default:
         await interaction.reply({

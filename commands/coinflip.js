@@ -67,6 +67,7 @@ module.exports = {
       embedFieldName = 'Loser';
       emebedFieldValue = `You lost ${result.amount} ${rCoin}`;
       coinflipEmbed.setThumbnail(`attachment://lose-icon.png`);
+      coinflipEmbed.setColor('RED');
     } else if (result.type == 'won') {
       winIcon = new MessageAttachment(
         './assets/slots/win-pair.png',
@@ -75,6 +76,7 @@ module.exports = {
       embedFieldName = 'Winner';
       emebedFieldValue = `You won ${result.amount} ${rCoin}`;
       coinflipEmbed.setThumbnail(`attachment://win-pair.png`);
+      coinflipEmbed.setColor('GREEN');
     }
     coinflipEmbed.addField(
       `${embedFieldName}`,

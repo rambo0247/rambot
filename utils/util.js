@@ -59,4 +59,25 @@ module.exports = {
     const day = ('0' + date.getDate()).slice(-2);
     return `${monthNumber}/${day}/${date.getFullYear()}`;
   },
+  parseSeconds(inputSeconds) {
+    if (String(inputSeconds).includes('-')) return '0 Seconds';
+    const days = Math.floor(parseInt(inputSeconds / (3600 * 24)));
+    inputSeconds = inputSeconds % (3600 * 24);
+    const hours = Math.floor(parseInt(inputSeconds / 3600));
+    inputSeconds = inputSeconds % 3600;
+    const minutes = Math.floor(parseInt(inputSeconds / 60));
+    inputSeconds = Math.floor(parseInt(inputSeconds % 60));
+
+    if (days) {
+      return `${days} days, ${hours} hours, ${minutes} minutes`;
+    } else if (hours) {
+      return `${hours} hours, ${minutes} minutes, ${inputSeconds} seconds`;
+    } else if (minutes) {
+      return `${minutes} minutes, ${inputSeconds} seconds`;
+    } else {
+      return `${inputSeconds} seconds`;
+    }
+
+    // Code by https://github.com/BIntelligent/currency-system/blob/cf4cc310f2b63ebef784056df80f2e0ebb22b848/src/classes/functions.js#L909
+  },
 };

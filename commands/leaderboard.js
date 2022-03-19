@@ -9,13 +9,27 @@ const availableGameNames = '(wordle, trivia, rcoins)';
 const CurrencySystem = require('currency-system');
 module.exports = {
   name: 'leaderboard',
-  description: 'Displays leaderboard for a certain game.',
+  description: 'Displays leaderboard for a certain category',
   options: [
     {
-      name: 'for',
-      description: `Name of game for which leaderboard you want to view ${availableGameNames}.`,
-      type: 'STRING',
+      name: 'category',
+      description: 'Category to view leaderboard for',
+      type: 3,
       required: true,
+      choices: [
+        {
+          name: 'wordle',
+          value: 'wordle',
+        },
+        {
+          name: 'trivia',
+          value: 'trivia',
+        },
+        {
+          name: 'rcoins',
+          value: 'rcoins',
+        },
+      ],
     },
   ],
   /**
@@ -32,7 +46,7 @@ module.exports = {
       );
       return;
     }
-    const gameName = interaction.options.getString('for').toLowerCase();
+    const gameName = interaction.options.get('category').value;
 
     switch (gameName) {
       case 'wordle':
@@ -41,7 +55,7 @@ module.exports = {
       case 'trivia':
         await getTriviaLeaderboard(interaction, client);
         break;
-      case 'balance':
+      case 'rcoins':
         await getBalanceLeaderboard(interaction, client, currencySystem);
         break;
       default:

@@ -72,13 +72,13 @@ module.exports = {
     let embedDescription;
     if (result.error) {
       if (result.type === 'negative-money')
-        embedDescription = "You can't withdraw negative R-Coins";
+        embedDescription = "You can't deposit negative R-Coins";
       if (result.type === 'low-money')
-        embedDescription = "You don't have enough R-Coins in bank.";
-      if (result.type === 'no-money')
-        embedDescription = "You don't have any R-Coins to withdraw";
+        embedDescription = "You don't have enough R-Coins in your wallet.";
+      if (result.type === 'no-money' || result.type === 'money')
+        embedDescription = "You don't have any R-Coins to deposit";
       if (result.type === 'bank-full')
-        embedDescription = 'Your bank limit has been reached';
+        embedDescription = 'Your wallet limit has been reached';
     } else {
       embedDescription = `Amount Deposited: ${amountToDeposit} ${rCoin}\nWallet: ${result.rawData.wallet} ${rCoin}\nBank: ${result.rawData.bank} ${rCoin}`;
     }

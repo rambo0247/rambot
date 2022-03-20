@@ -12,7 +12,8 @@ Rambot is an open source discord bot built specifically for the Radiant Garden(p
 
 - 🎉 **Fun**: `wordle`, `trivia`(League of legends trivia), `leaderboard`
 - 👮 **Moderation**: `clear`
-- 💰 **Economy** `balance`, `deposit`, `withdraw`, `donate`, `rob`, `slots`, `daily`, `weekly`, `work`
+- 💰 **Economy**: `balance`, `deposit`, `withdraw`, `donate`, `rob`, `slots`, `daily`, `weekly`, `work`, `coinflip`
+- 📚 **General**: `cooldowns`
 
 ## ✍️ To-Do
 

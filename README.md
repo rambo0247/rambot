@@ -43,3 +43,4 @@ credit somewhere.
 - <a href="https://www.flaticon.com/free-icons/reward" title="reward icons">Reward icons created by Pixel perfect - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/construction-worker" title="construction worker icons">Construction worker icons created by surang - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/time" title="time icons">Time icons created by Freepik - Flaticon</a>
+- <a href="https://game-icons.net/tags/board.html">Card Icons by Simon under</a> under <a href="https://creativecommons.org/licenses/by/3.0/"> CC BY 3.0</a>

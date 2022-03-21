@@ -37,14 +37,20 @@ module.exports = {
     });
     const robCommandCooldown = 3600;
     const coinflipCommandCooldown = 60;
+    const workCommandCooldown = 900;
     const robTimeLeft = parseSeconds(
       robCommandCooldown - (Date.now() - data.lastRob) / 1000
     );
     const coinflipTimeLeft = parseSeconds(
       coinflipCommandCooldown - (Date.now() - data.lastGamble) / 1000
     );
+    const workTimeLeft = parseSeconds(
+      workCommandCooldown - (Date.now() - data.lastWork) / 1000
+    );
+    result.info = result.info.filter((command) => command[0] !== 'Work');
     result.info.push(['Rob', { timeLeft: robTimeLeft }]);
     result.info.push(['Coinflip', { timeLeft: coinflipTimeLeft }]);
+    result.info.push(['Work', { timeLeft: workTimeLeft }]);
     let commandsCooldownInfo = '';
     const commandsToShow = {
       daily: 'Daily',

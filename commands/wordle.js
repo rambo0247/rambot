@@ -32,7 +32,7 @@ module.exports = {
     const answerWord = getAnswerWord();
     let guessCount = 0;
     const userName = interaction.user.username;
-    let ramboPoints = -20;
+    let ramboPoints = -40;
     let isWin;
     let invalidWordCount = 0;
     const alphabet = 'a b c d e f g h i j k l m n o p q r s t u v w x y z';
@@ -148,7 +148,7 @@ module.exports = {
         )
       ) {
         isWin = true;
-        ramboPoints = (6 - guessCount + 1) * 10;
+        ramboPoints = (6 - guessCount + 1) * 20;
         const field = getGameEndField(guessCount, ramboPoints, answerWord);
         wordleEmbed.addField(
           `${field.fieldName}`,

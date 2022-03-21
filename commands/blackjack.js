@@ -75,6 +75,7 @@ module.exports = {
     }
     const blackjackEmbed = new MessageEmbed()
       .setTitle('Blackjack')
+      .setColor('BLUE')
       .setAuthor({
         name: `${interaction.user.username}`,
         iconURL: `${interaction.user.displayAvatarURL()}`,
@@ -121,6 +122,7 @@ module.exports = {
             'wallet'
           );
           embedDescription = `**Blackjack!**\nYou won ${payout} ${rCoin}\nYou now have ${userData.rawData.wallet.toLocaleString()} ${rCoin}`;
+          blackjackEmbed.setColor('GREEN');
           break;
         case 'player-bust':
           userData = await removeMoney(
@@ -131,9 +133,11 @@ module.exports = {
             'wallet'
           );
           embedDescription = `**Bust!**\nYou lost ${payout} ${rCoin}\nYou now have ${userData.rawData.wallet.toLocaleString()} ${rCoin}`;
+          blackjackEmbed.setColor('RED');
           break;
         case 'player-dealer-blackjack':
           embedDescription`**Two blackjacks, Tied!**\nYou lost 0 ${rCoin}\nYou now have ${userBalance.wallet} ${rCoin}`;
+          blackjackEmbed.setColor('YELLOW');
         case 'player-stand':
           while (dealer.checkScore() < 17) {
             if (dealer.hit() === 1) {
@@ -147,9 +151,11 @@ module.exports = {
               embedDescription = `**Dealer Busted**\nYou won ${payout} ${rCoin}\nYou now have ${userData.rawData.wallet.toLocaleString()} ${rCoin}`;
             }
           }
+          blackjackEmbed.setColor('GREEN');
         default:
           if (dealer.checkScore() === player.checkScore()) {
             embedDescription = `**Push**\nYou lost 0 ${rCoin}\nYou now have ${userBalance.wallet} ${rCoin}`;
+            blackjackEmbed.setColor('YELLOW');
           } else if (
             dealer.checkScore() > player.checkScore() &&
             dealer.checkScore() <= 21
@@ -162,6 +168,7 @@ module.exports = {
               'wallet'
             );
             embedDescription = `**Dealer wins!!**\nYou lost ${payout} ${rCoin}\nYou now have ${userData.rawData.wallet.toLocaleString()} ${rCoin}`;
+            blackjackEmbed.setColor('RED');
           } else if (dealer.checkScore() < player.checkScore()) {
             userData = await addMoney(
               currencySystem,
@@ -171,6 +178,7 @@ module.exports = {
               'wallet'
             );
             embedDescription = `**Winner**\nYou won ${payout} ${rCoin}\nYou now have ${userData.rawData.wallet.toLocaleString()} ${rCoin}`;
+            blackjackEmbed.setColor('GREEN');
           }
       }
       await blackjack.displayEmbed(

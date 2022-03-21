@@ -45,7 +45,7 @@ module.exports = {
       user2: userToRob,
       guild: interaction.guild.id,
       minAmount: minAmountToRob,
-      successPercentage: 1,
+      successPercentage: 3,
       cooldown: 3600,
       maxRob: maxAmountToRob,
     });

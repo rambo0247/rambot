@@ -52,7 +52,7 @@ const questionGenerator = (async function () {
       runeDescription,
       null,
       randomRune.name,
-      5
+      25
     );
   }
   async function champFromAbility() {
@@ -65,7 +65,7 @@ const questionGenerator = (async function () {
       randomSpell.name,
       null,
       randomChampion.name,
-      5
+      25
     );
   }
   async function skinFromImage() {
@@ -79,7 +79,7 @@ const questionGenerator = (async function () {
       null,
       randomSkin.url,
       randomSkin.skinName,
-      5
+      25
     );
   }
 
@@ -94,7 +94,7 @@ const questionGenerator = (async function () {
       lore,
       null,
       championData.name,
-      10
+      30
     );
   }
 
@@ -107,7 +107,7 @@ const questionGenerator = (async function () {
       championTitle,
       null,
       randomChampion.name,
-      5
+      25
     );
   }
 
@@ -120,7 +120,7 @@ const questionGenerator = (async function () {
       itemDescription,
       null,
       randomItem.name,
-      5
+      25
     );
   }
 
@@ -144,7 +144,7 @@ const questionGenerator = (async function () {
       skinNames,
       null,
       randomChampion.name,
-      5
+      25
     );
   }
 
@@ -159,7 +159,7 @@ const questionGenerator = (async function () {
       null,
       null,
       spellName,
-      15
+      35
     );
   }
 
@@ -180,7 +180,7 @@ const questionGenerator = (async function () {
       itemComponentNames.join(', '),
       null,
       randomItem.name,
-      15
+      35
     );
   }
 
@@ -193,7 +193,7 @@ const questionGenerator = (async function () {
       null,
       runeUrl,
       randomRune.name,
-      5
+      25
     );
   }
 
@@ -208,7 +208,7 @@ const questionGenerator = (async function () {
       randomItem.name,
       null,
       randomItem.gold.total.toString(),
-      5
+      25
     );
   }
 
@@ -221,7 +221,7 @@ const questionGenerator = (async function () {
       null,
       null,
       championTitle,
-      15
+      35
     );
   }
 
@@ -238,7 +238,7 @@ const questionGenerator = (async function () {
       null,
       null,
       randomChampion.name,
-      15,
+      35,
       await image.getBufferAsync(jimp.MIME_JPEG)
     );
   }
@@ -254,7 +254,7 @@ const questionGenerator = (async function () {
       null,
       randomAbilityIcon,
       randomChampion.name,
-      5
+      25
     );
   }
 
@@ -268,7 +268,7 @@ const questionGenerator = (async function () {
       null,
       passiveIcon,
       randomChampion.name,
-      5
+      25
     );
   }
 

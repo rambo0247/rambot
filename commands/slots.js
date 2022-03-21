@@ -66,7 +66,7 @@ module.exports = {
         ephemeral: true,
       });
     }
-    if (userBalance.wallet.toLocaleString() < betAmount) {
+    if (userBalance.wallet < betAmount) {
       return await interaction.reply({
         content: 'You do not have enough money in your wallet for this bet',
         ephemeral: true,

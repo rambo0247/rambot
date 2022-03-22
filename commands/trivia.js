@@ -21,6 +21,13 @@ module.exports = {
       });
       return;
     }
+    if (interaction.channel.name !== 'league-trivia') {
+      await interaction.reply({
+        content: 'You can only play trivia in the league-trivia channel',
+        ephemeral: true,
+      });
+      return;
+    }
     isTriviaGameRunning = true;
     await interaction.reply('Starting a game of trivia...');
     let currentQuestion, timer, currentAnswer;

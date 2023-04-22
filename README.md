@@ -8,20 +8,20 @@
 
 Rambot is an open source discord bot built specifically for the Radiant Garden(private) discord server.
 
-## 🧨 Features
+https://user-images.githubusercontent.com/60529713/233765507-d46398b6-670c-4d6f-8bb1-4f18f7236970.mp4
+
+## 🎮 Try it out
+
+- To try the bot out yourself, you can invite it using the [invite link](https://discord.com/api/oauth2/authorize?client_id=782050293352628225&permissions=10311612853328&scope=bot%20applications.commands)
+  - You must be in a channel called `league-trivia` to be able to use the `/trivia` command
+ 
+## 🧨 Commands
 
 - 🎉 **Fun**: `wordle`, `trivia`(League of legends trivia), `leaderboard`
 - 👮 **Moderation**: `clear`
-- 💰 **Economy**: `balance`, `deposit`, `withdraw`, `donate`, `rob`, `slots`, `daily`, `weekly`, `work`, `coinflip`
+- 💰 **Economy**: `balance`, `deposit`, `withdraw`, `donate`, `rob`, `daily`, `weekly`, `work`
+- 🏦 **Casino**: `slots`, `blackjack`, `coinflip`
 - 📚 **General**: `cooldowns`
-
-## ✍️ To-Do
-
-Rambot is in the early stages of development at the moment and a lot more features will be coming.
-
-- Economy System
-- Casino Games: `slots`, `blackjack`, and more
-- Suggestions I think are worthy
 
 ## © License
 

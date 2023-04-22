@@ -14,7 +14,7 @@ module.exports = {
     {
       name: 'bet',
       description: 'Amount of money to bet (minimum: 50)',
-      type: 'INTEGER',
+      type: 4,
       required: true,
     },
   ],

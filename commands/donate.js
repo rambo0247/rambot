@@ -15,13 +15,13 @@ module.exports = {
     {
       name: 'user',
       description: 'User you want to donate to',
-      type: 'USER',
+      type: 6,
       required: true,
     },
     {
       name: 'amount',
       description: 'Amount of R-Coins to donate',
-      type: 'INTEGER',
+      type: 10,
       required: true,
     },
   ],

@@ -15,7 +15,7 @@ module.exports = {
     {
       name: 'user',
       description: 'User to rob',
-      type: 'USER',
+      type: 6,
       required: true,
     },
   ],

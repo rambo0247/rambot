@@ -21,12 +21,12 @@ module.exports = {
     {
       name: 'coins',
       description: 'Play a game of slots betting the specified amount',
-      type: 'SUB_COMMAND',
+      type: 1,
       options: [
         {
           name: 'bet',
           description: 'Amount of money to bet (minimum: 50)',
-          type: 'INTEGER',
+          type: 4,
           required: true,
         },
       ],
@@ -34,7 +34,7 @@ module.exports = {
     {
       name: 'all',
       description: 'Play a game of slots betting all your money',
-      type: 'SUB_COMMAND',
+      type: 1,
     },
   ],
   /**

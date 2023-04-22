@@ -16,12 +16,12 @@ module.exports = {
     {
       name: 'coins',
       description: 'Deposit specified R-Coins from your wallet into your bank',
-      type: 'SUB_COMMAND',
+      type: 1,
       options: [
         {
           name: 'amount',
           description: 'Amount of R-Coins to deposit',
-          type: 'INTEGER',
+          type: 4,
           required: true,
         },
       ],
@@ -29,7 +29,7 @@ module.exports = {
     {
       name: 'all',
       description: 'Deposit all your money',
-      type: 'SUB_COMMAND',
+      type: 1,
     },
   ],
   /**

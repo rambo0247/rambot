@@ -9,13 +9,13 @@ module.exports = {
       name: 'amount',
       description:
         'Select the amount of message to delete from a channel or a target.',
-      type: 'NUMBER',
+      type: 10,
       required: true,
     },
     {
       name: 'target',
       description: 'Select a target to clear their messages.',
-      type: 'USER',
+      type: 6,
       required: false,
     },
   ],

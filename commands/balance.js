@@ -15,7 +15,7 @@ module.exports = {
     {
       name: 'user',
       description: 'User to view balance of',
-      type: 'USER',
+      type: 6,
     },
   ],
   /**

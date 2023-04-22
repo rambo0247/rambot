@@ -15,7 +15,7 @@ module.exports = {
     {
       name: 'amount',
       description: 'Amount of R-Coins to withdraw',
-      type: 'INTEGER',
+      type: 4,
       required: true,
     },
   ],

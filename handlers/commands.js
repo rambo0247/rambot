@@ -34,6 +34,7 @@ module.exports = async (client) => {
       }
     }
 
+    client.commands.set(command.name, command);
     Table.addRow(command.name, '🟢SUCCESSFUL');
   }
 

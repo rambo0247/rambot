@@ -45,7 +45,7 @@ module.exports = {
   },
 };
 
-function convertToElo(name, league, division, LP = 0) {
+function convertToElo(league, division, LP = 0) {
   let baseElo = 0;
   let modifierPerLP = 0.7;
   let totalLP = LP;
@@ -120,6 +120,6 @@ async function fetchPlayerData(summonerId) {
     lp: data.leaguePoints,
     wins: data.wins,
     losses: data.losses,
-    rankPosition: convertToElo(data.name, data.tier, data.rank, data.lp),
+    rankPosition: convertToElo(data.tier, data.rank, data.leaguePoints),
   };
 }

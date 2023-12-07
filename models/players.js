@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const flexPlayersSchema = mongoose.Schema({
+  summonerId: String,
   name: String,
-  tagLine: String,
 });
 
 module.exports = mongoose.model('flex-players', flexPlayersSchema);

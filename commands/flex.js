@@ -14,21 +14,10 @@ module.exports = {
    */
   async execute(interaction, client, currencySystem) {
     await interaction.deferReply();
-    const flexPlayers = (await flexPlayersModel.find().lean())[0].players;
-    const playerFlexData = [];
-    for await (const player of flexPlayers) {
-      const playerData = await fetchPlayerData(player);
-      playerFlexData.push({
-        ...playerData,
-        rankPosition: convertToElo(
-          playerData.name,
-          playerData.tier,
-          playerData.rank,
-          playerData.lp
-        ),
-      });
-      await new Promise((resolve) => setTimeout(resolve, 50));
-    }
+    const flexPlayers = await flexPlayersModel.find().lean();
+    const playerFlexData = await Promise.all(
+      flexPlayers.map((player) => fetchPlayerData(player.summonerId))
+    );
     const sortedFlexData = playerFlexData.sort(
       (a, b) => b.rankPosition - a.rankPosition
     );
@@ -112,29 +101,7 @@ function convertToElo(name, league, division, LP = 0) {
   return baseElo + totalLP * modifierPerLP;
 }
 
-async function fetchPlayerData({ name, tagLine }) {
-  const accountResponse = await fetch(
-    `https://americas.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${name}/${tagLine}`,
-    {
-      method: 'GET',
-      headers: {
-        'X-Riot-Token': process.env.RIOT_API_KEY,
-      },
-    }
-  );
-  const account = await accountResponse.json();
-  const playerUUID = account.puuid;
-  const summonerResponse = await fetch(
-    `https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${playerUUID}`,
-    {
-      method: 'GET',
-      headers: {
-        'X-Riot-Token': process.env.RIOT_API_KEY,
-      },
-    }
-  );
-  const summoner = await summonerResponse.json();
-  const summonerId = summoner.id;
+async function fetchPlayerData(summonerId) {
   const leagueResponse = await fetch(
     `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}`,
     {
@@ -153,5 +120,6 @@ async function fetchPlayerData({ name, tagLine }) {
     lp: data.leaguePoints,
     wins: data.wins,
     losses: data.losses,
+    rankPosition: convertToElo(data.name, data.tier, data.rank, data.lp),
   };
 }

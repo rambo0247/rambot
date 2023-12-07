@@ -22,13 +22,13 @@ module.exports = {
       (a, b) => b.rankPosition - a.rankPosition
     );
     const Table = new Ascii('Flex Standings');
-    Table.setHeading('Rank', 'Username', 'LP', 'W/L');
+    Table.setHeading('Rank', 'Username', 'Tier', 'LP', 'W/L');
     for (let i = 1; i <= sortedFlexData.length; i++) {
       const { name, rank, tier, lp, wins, losses } = sortedFlexData[i - 1];
       Table.addRow(
         `${i}`,
         `${name}`,
-        `${tier} ${rank} - ${lp}`,
+        `${tier} ${rank}`,
         `${lp}`,
         `${wins}/${losses} (${Math.round((wins / (wins + losses)) * 100)}%)`
       );

@@ -16,7 +16,7 @@ module.exports = {
     await interaction.deferReply();
     const flexPlayers = await flexPlayersModel.find().lean();
     const playerFlexData = await Promise.all(
-      flexPlayers.map((player) => fetchPlayerData(player.summonerId))
+      flexPlayers.map((player) => fetchPlayerData(player))
     );
     const sortedFlexData = playerFlexData.sort(
       (a, b) => b.rankPosition - a.rankPosition
@@ -101,7 +101,7 @@ function convertToElo(league, division, LP = 0) {
   return baseElo + totalLP * modifierPerLP;
 }
 
-async function fetchPlayerData(summonerId) {
+async function fetchPlayerData({ name, summonerId }) {
   const leagueResponse = await fetch(
     `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}`,
     {
@@ -114,7 +114,7 @@ async function fetchPlayerData(summonerId) {
   const league = await leagueResponse.json();
   const data = league.find((queue) => queue.queueType === 'RANKED_FLEX_SR');
   return {
-    name: data.summonerName,
+    name,
     tier: data.tier,
     rank: data.rank,
     lp: data.leaguePoints,

@@ -25,12 +25,16 @@ module.exports = {
     Table.setHeading('Rank', 'Username', 'Tier', 'LP', 'W/L');
     for (let i = 1; i <= sortedFlexData.length; i++) {
       const { name, rank, tier, lp, wins, losses } = sortedFlexData[i - 1];
+      if (!rank) {
+      }
       Table.addRow(
         `${i}`,
         `${name}`,
         `${tier} ${rank}`,
         `${lp}`,
-        `${wins}/${losses} (${Math.round((wins / (wins + losses)) * 100)}%)`
+        rank
+          ? `${wins}/${losses} (${Math.round((wins / (wins + losses)) * 100)}%)`
+          : '-'
       );
     }
     for (let column = 0; column < 6; column++) {
@@ -46,6 +50,7 @@ module.exports = {
 };
 
 function convertToElo(league, division, LP = 0) {
+  if (!league || !division) return;
   let baseElo = 0;
   let modifierPerLP = 0.7;
   let totalLP = LP;
@@ -115,11 +120,12 @@ async function fetchPlayerData({ name, summonerId }) {
   const data = league.find((queue) => queue.queueType === 'RANKED_FLEX_SR');
   return {
     name,
-    tier: data.tier,
-    rank: data.rank,
-    lp: data.leaguePoints,
-    wins: data.wins,
-    losses: data.losses,
-    rankPosition: convertToElo(data.tier, data.rank, data.leaguePoints),
+    tier: data?.tier || 'UNRANKED',
+    rank: data?.rank || '',
+    lp: data?.leaguePoints || '-',
+    wins: data?.wins || '',
+    losses: data?.losses || '',
+    rankPosition:
+      convertToElo(data?.tier, data?.rank, data?.leaguePoints) || '',
   };
 }

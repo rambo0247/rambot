@@ -108,7 +108,7 @@ function convertToElo(league, division, LP = 0) {
 
 async function fetchPlayerData({ name, summonerId }) {
   const leagueResponse = await fetch(
-    `https://na1.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerId}`,
+    `https://na1.api.riotgames.com/lol/league/v4/entries/by-puuid/${summonerId}`,
     {
       method: 'GET',
       headers: {

@@ -78,13 +78,21 @@ function convertToElo(league, division, LP = 0) {
       baseElo = 2900;
       modifierPerLP = 0.05;
       break;
+    case 'GRANDMASTER':
+      baseElo = 3075;
+      modifierPerLP = 0.05;
+      break;
     case 'CHALLENGER':
       baseElo = 3250;
       modifierPerLP = 0.05;
       break;
   }
 
-  if (league !== 'MASTER' && league !== 'CHALLENGER') {
+  if (
+    league !== 'MASTER' &&
+    league !== 'GRANDMASTER' &&
+    league !== 'CHALLENGER'
+  ) {
     switch (division) {
       case 1:
       case 'I':

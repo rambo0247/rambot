@@ -18,7 +18,15 @@ module.exports = {
     const playerSolosData = await Promise.all(
       flexPlayers.map((player) => fetchPlayerData(player)),
     );
-    const sortedSolosData = playerSolosData.sort(
+    const foundSolosData = playerSolosData.filter(
+      (player) => player !== null,
+    );
+    if (foundSolosData.length === 0) {
+      return interaction.editReply({
+        content: "Could not fetch ranked data for any players.",
+      });
+    }
+    const sortedSolosData = foundSolosData.sort(
       (a, b) => b.rankPosition - a.rankPosition,
     );
     const Table = new Ascii("Solo/Duo Standings");
@@ -115,16 +123,32 @@ function convertToElo(league, division, LP = 0) {
 }
 
 async function fetchPlayerData({ name, summonerId }) {
-  const leagueResponse = await fetch(
-    `https://na1.api.riotgames.com/lol/league/v4/entries/by-puuid/${summonerId}`,
-    {
-      method: "GET",
-      headers: {
-        "X-Riot-Token": process.env.RIOT_API_KEY,
+  let league;
+  try {
+    const leagueResponse = await fetch(
+      `https://na1.api.riotgames.com/lol/league/v4/entries/by-puuid/${summonerId}`,
+      {
+        method: "GET",
+        headers: {
+          "X-Riot-Token": process.env.RIOT_API_KEY,
+        },
       },
-    },
-  );
-  const league = await leagueResponse.json();
+    );
+    if (!leagueResponse.ok) {
+      console.error(
+        `Failed to fetch ranked data for ${name}: ${leagueResponse.status}`,
+      );
+      return null;
+    }
+    league = await leagueResponse.json();
+  } catch (error) {
+    console.error(`Failed to fetch ranked data for ${name}:`, error);
+    return null;
+  }
+  if (!Array.isArray(league)) {
+    console.error(`Unexpected ranked data for ${name}:`, league);
+    return null;
+  }
   const data = league.find((queue) => queue.queueType === "RANKED_SOLO_5x5");
   return {
     name,

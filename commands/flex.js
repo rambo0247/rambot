@@ -18,7 +18,13 @@ module.exports = {
     const playerFlexData = await Promise.all(
       flexPlayers.map((player) => fetchPlayerData(player))
     );
-    const sortedFlexData = playerFlexData.sort(
+    const foundFlexData = playerFlexData.filter((player) => player !== null);
+    if (foundFlexData.length === 0) {
+      return interaction.editReply({
+        content: 'Could not fetch ranked data for any players.',
+      });
+    }
+    const sortedFlexData = foundFlexData.sort(
       (a, b) => b.rankPosition - a.rankPosition
     );
     const Table = new Ascii('Flex Standings');
@@ -115,16 +121,32 @@ function convertToElo(league, division, LP = 0) {
 }
 
 async function fetchPlayerData({ name, summonerId }) {
-  const leagueResponse = await fetch(
-    `https://na1.api.riotgames.com/lol/league/v4/entries/by-puuid/${summonerId}`,
-    {
-      method: 'GET',
-      headers: {
-        'X-Riot-Token': process.env.RIOT_API_KEY,
-      },
+  let league;
+  try {
+    const leagueResponse = await fetch(
+      `https://na1.api.riotgames.com/lol/league/v4/entries/by-puuid/${summonerId}`,
+      {
+        method: 'GET',
+        headers: {
+          'X-Riot-Token': process.env.RIOT_API_KEY,
+        },
+      }
+    );
+    if (!leagueResponse.ok) {
+      console.error(
+        `Failed to fetch ranked data for ${name}: ${leagueResponse.status}`
+      );
+      return null;
     }
-  );
-  const league = await leagueResponse.json();
+    league = await leagueResponse.json();
+  } catch (error) {
+    console.error(`Failed to fetch ranked data for ${name}:`, error);
+    return null;
+  }
+  if (!Array.isArray(league)) {
+    console.error(`Unexpected ranked data for ${name}:`, league);
+    return null;
+  }
   const data = league.find((queue) => queue.queueType === 'RANKED_FLEX_SR');
   return {
     name,
